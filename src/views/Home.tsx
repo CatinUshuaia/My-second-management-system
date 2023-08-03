@@ -1,14 +1,14 @@
 ﻿import React, { useState } from 'react';
 import {
     DesktopOutlined,
-    FileOutlined,
-    PieChartOutlined,
+    UploadOutlined,
     TeamOutlined,
     UserOutlined,
+    LogoutOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-
+import { Layout, Menu, theme } from 'antd';
+import { Outlet,useNavigate } from "react-router-dom"
 const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -28,41 +28,55 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem('Form submit', '1', <PieChartOutlined />),
-    getItem('Form status', '2', <DesktopOutlined />),
-    getItem('User', 'sub1', <UserOutlined />, [
-        getItem('Tom', '3'),
-        getItem('Bill', '4'),
-        getItem('Alex', '5'),
+    getItem('Form submit', '/formsubmit', <UploadOutlined />),
+    getItem('Form status', '/formstatus', <DesktopOutlined />),
+    getItem('User', '1', <UserOutlined />, [
+        getItem('Settings', '/settings',),
+        getItem('Password', '/password',),
+        getItem('Remarks', '/remarks',),
     ]),
-    getItem('Team', 'sub2', <TeamOutlined />, [getItem('IOT', '6'), getItem('MIT', '8')]),
-    getItem('Files', '9', <FileOutlined />),
+    getItem('Team', '2', <TeamOutlined />, [getItem('IOT', '/iot'), getItem('MIT', '/mit')]),
+    getItem('Exit', '/exit', <LogoutOutlined />)
 ];
+
 
 const View: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const navigateTo = useNavigate();
     const {
         token: { colorBgContainer },
     } = theme.useToken();
 
+    const menuClick = (e: { key: string }) => {
+        console.log("点击了菜单", e.key);
+        
+        //点击跳转到对应的路由(代码中跳转属于编程式导航跳转)
+        navigateTo(e.key);
+    }
+
+
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+
+            {/*左侧侧边栏*/}
+            <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>      
                 <div className="demo-logo-vertical" />
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={menuClick} />
             </Sider>
+            {/*右侧内容*/}
+
             <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }} />
-                <Content style={{ margin: '0 16px' }}>
-                    <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>User</Breadcrumb.Item>
-                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
-                        Bill is a cat.
-                    </div>
+                {/*右侧头部*/}
+                <Header style={{ paddingLeft: '16px', background: colorBgContainer }} >
+                    
+                </Header>
+                {/*右侧大空白*/}
+                <Content style={{ margin: '16px 16px 0', background: "white" }} >
+                    {/*此处放窗口*/}
+                    <Outlet />
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+
+                <Footer style={{ textAlign: 'center' ,padding:0,lineHeight:'48px'}}>Ant Design ©2023 Created by Ant UED</Footer>
             </Layout>
         </Layout>
     );
