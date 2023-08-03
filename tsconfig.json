@@ -9,6 +9,7 @@
     "jsx": "react-jsx",
     "lib": [ "DOM", "DOM.Iterable", "ESNext" ],
     "module": "ESNext",
+    "suppressImplicitAnyIndexErrors": true,
     "moduleResolution": "Node",
     "noEmit": true,
     "paths": {
