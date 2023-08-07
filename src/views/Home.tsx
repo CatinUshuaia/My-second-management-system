@@ -1,4 +1,12 @@
 ﻿import React, { useState } from 'react';
+
+
+import { Layout,theme } from 'antd';
+import { Outlet } from "react-router-dom"
+import Mainmenu from "@/components/Mainmenu" 
+
+const { Header, Content, Footer, Sider } = Layout;
+
 import {
     DesktopOutlined,
     UploadOutlined,
@@ -40,12 +48,19 @@ const items: MenuItem[] = [
 ];
 
 
+
 const View: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+
+
     const navigateTo = useNavigate();
+
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+
+
+
 
     const menuClick = (e: { key: string }) => {
         console.log("点击了菜单", e.key);
@@ -55,13 +70,21 @@ const View: React.FC = () => {
     }
 
 
+
     return (
         <Layout style={{ minHeight: '100vh' }}>
 
             {/*左侧侧边栏*/}
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>      
+
+                < div className="brand" >
+                    <img src="/src/img/logo.png" alt="logo" />
+                </div>
+                <Mainmenu />
+
                 <div className="demo-logo-vertical" />
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={menuClick} />
+
             </Sider>
             {/*右侧内容*/}
 
