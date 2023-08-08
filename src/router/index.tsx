@@ -32,7 +32,7 @@ function withLoadingComponent(comp:JSX.Element) {
 const routes = [
     {
         path: "/", //重定向到home
-        element: <Navigate to="/Formsubmit" />
+        element: <Navigate to="/Login" />
     },
 
     //嵌套路由

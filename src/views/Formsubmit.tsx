@@ -1,4 +1,5 @@
 ﻿import { useDispatch, useSelector } from "react-redux"
+import numStatus from "@/store/NumStatus"
 
 const View = () => {
     const dispatch = useDispatch()
@@ -9,12 +10,11 @@ const View = () => {
 
     //修改仓库数据
     const changeNum = () => {
-        //dispatch({type:"字符串，认为是一个记号",val:3}) type是固定的 val是自定义的
-        dispatch({ type: "add2",val:10 })
+        dispatch(numStatus.asyncActions.asyncAdd1)
+
     }
 
     const changeArr = () => {
-        //dispatch({type:"字符串，认为是一个记号",val:3}) type是固定的 val是自定义的
         dispatch({ type: "sarrpush", val: 10 })
     }
 
@@ -25,9 +25,9 @@ const View = () => {
             <p>这是Formsubmit页面</p>
             <p>请在这里提交你的表格</p>
             <p>{num}</p>
-            <button onClick={changeNum}>按钮</button>
+            <button onClick={changeNum}>异步操作按钮</button>
             <div>
-                <button onClick={changeArr}>按钮</button>
+                <button onClick={changeArr}>同步操作按钮</button>
             </div>
         </div>
     )
