@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "baseUrl": "./",
     "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
@@ -18,7 +19,6 @@
       ]
     },
     "resolveJsonModule": true,
-    "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
     "useDefineForClassFields": true

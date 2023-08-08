@@ -16,7 +16,7 @@ const view = () => {
     const [passwordVal, setPasswordVal] = useState("");
     const [captchaVal, setCaptchaVal] = useState("");
 
-    const usernameChange = (e:ChangeEvent<HTMLInputElement>) => {
+    const usernameChange = (e:ChangeEvent<HTMLInputElement>) => { 
     //获取用户输入的用户名
 
     //修改usernameVal这个变量为用户输入值，以后拿到这个变量相当于拿到用户输入信息。 

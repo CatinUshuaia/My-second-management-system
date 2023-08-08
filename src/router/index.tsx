@@ -41,15 +41,12 @@ const routes = [
         element: <Home />,
         children: [
             {
-            path: "/formsubmit",
+            path: "/Formsubmit",
             element: withLoadingComponent(<Formsubmit />)
-            },
-
-            {
+            },{
                 path: "/Formstatus",
                 element: withLoadingComponent(<Formstatus />)
-            },
-            {
+            },{
                 path: "/Settings",
                 element: withLoadingComponent(<Settings />)
             }, {
@@ -82,9 +79,6 @@ const routes = [
         element: <Navigate to="/Formsubmit" />
     }
   
-
-
-
     //{
     //    path: "/home",
     //    element: <Home />,
