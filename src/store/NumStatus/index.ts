@@ -13,8 +13,19 @@
         },
     },
 
+
+    //优化redux-thunk的异步写法（模仿Vuex的写法）
+    asyncActions: {//只放异步的方法
+    asyncAdd1(dispatch: Function){
+    setTimeout(() => {
+        dispatch({ type: "add1" })
+    }, 1000)
+    }
+},
     actionNames: {}
 }
+
+
 
 let actionNames = {};
 
