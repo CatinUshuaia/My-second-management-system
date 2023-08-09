@@ -51,7 +51,7 @@ const view = () => {
         //验证是否有空值
         if (!usernameVal.trim() || !passwordVal.trim() || !captchaVal.trim()) {
             message.warning("请输入完整信息！")
-            return
+            return;
         }
 
         //发起登录请求
@@ -72,6 +72,18 @@ const view = () => {
             navigateTo("/formsubmit");
         //4.删除本地保存中的uuid
             localStorage.removeItem("uuid")
+            return;
+        }
+
+        if (loginAPIRes.msg === "登录用户：" + usernameVal + " 不存在") {                     
+            message.error("登录失败！请重新确认！")
+            return;
+        }
+
+        if (loginAPIRes.msg === "验证码错误" || loginAPIRes.msg === "验证码已失效") {
+            message.error("验证码错误或已失效！")
+            getCaptchaImg();
+            return;
         }
     }
 
@@ -90,7 +102,6 @@ const view = () => {
         //2.本地保存uuid,给登录的时候用
             localStorage.setItem("uuid", captchaAPIRes.uuid);
         }
-        
 
     }
 

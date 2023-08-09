@@ -6,9 +6,9 @@ import {
     UserOutlined,
     LogoutOutlined
 } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
+import { MenuProps, message} from 'antd';
 import { Menu } from 'antd';
-import { useNavigate ,useLocation} from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -65,7 +65,7 @@ const items: MenuItem[] = [
     },
 
      {
-        label: 'Exits',
+        label: 'Exit',
          key: '/exit',
          icon: <LogoutOutlined />
     },
@@ -131,7 +131,12 @@ const Comp: React.FC = () => {
 
     const menuClick = (e: { key: string }) => {
         
-       // console.log("点击了菜单", e.key);
+        //如果点击exit,则会从localstorage中删除token并导向到登录页面
+        if (e.key === "/exit") {
+            localStorage.removeItem("formsubmission-token");
+            message.info("已退出当前用户");
+            navigateTo("/login");
+        }
 
         //点击跳转到对应的路由(代码中跳转属于编程式导航跳转)
         navigateTo(e.key);
