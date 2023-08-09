@@ -1,27 +1,37 @@
-# React + TypeScript + Vite
+﻿
+开发工具：
+1.主要工具：react18+vite+antd+typescript
+2.其它工具：react-redux(用于仓库管理) sass(更好书写css) loadash(防抖库) 
+            redux-thunk(解决react异步操作问题) axios(基于promise的网络请求库,用于登录界面)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+功能实现：
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+登录界面：
+1.动态星空背景(可控制星星大小/数量/速度)
+2.透明输入框
+3.密码选择可见性
+4.验证码图片点击可更换
+5.未输入完整信息点登录按钮会有提示框
+6.登录验证(验证通过可拿到token并保存在本地)
+7.路由守卫(无法在为登录拿到token的情况下通过路由来到首页,或在登陆后未退出情况下返回login页面)
+8.请求获取验证码uuid并保存在本地(用于登录验证,首次加载页面时会自动获取一次)
+9.登录成功会弹出成功登录提示框
+10.验证码错误后会弹出验证码错误提示框并自动重新获取
+11.登录失败后会弹出登录失败提示框
 
-## Expanding the ESLint configuration
+主页面：
+1.实现路由懒加载
+2.可收缩左侧菜单栏
+3.点击按钮可跳转对应页面
+4.菜单设置为只能有一个展开
+5.页面刷新后默认当前选中项
+6.在路由中随意输入其它地址会自动跳转至主界面
+7.设置了一个同步操作按钮和一个异步操作按钮
+8.数据可存放至store中且可用redux工具查看或修改
+9.点击exit按钮将删除token并返回登录界面,同时弹出提示框说明已退出当前用户
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+代码层面：
+1.菜单组件抽取
+2.模块化reducer,函数方法从组件中抽离,方便后续添加模块
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
