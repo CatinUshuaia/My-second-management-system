@@ -3,6 +3,9 @@
 import { Layout,theme } from 'antd';
 import { Outlet } from "react-router-dom"
 import Mainmenu from "@/components/Mainmenu" 
+import Topselector from "@/components/Topselector"
+import Avator from "@/components/Avatar"
+
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -22,7 +25,7 @@ const View: React.FC = () => {
             {/*左侧侧边栏*/}
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>      
                 < div className="brand" >
-                    <img src="/src/img/logo.png" alt="logo" />
+                    <Avator /> 
                 </div>
                 <Mainmenu />
             </Sider>
@@ -31,7 +34,9 @@ const View: React.FC = () => {
             <Layout>
                 {/*右侧头部*/}
                 <Header style={{ paddingLeft: '16px', background: colorBgContainer }} >
-                    
+                    <div>
+                        <Topselector />
+                    </div>                   
                 </Header>
                 {/*右侧大空白*/}
                 <Content style={{ margin: '16px 16px 0', background: "white" }} >
