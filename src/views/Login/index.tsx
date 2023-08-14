@@ -75,10 +75,16 @@ const view = () => {
             return;
         }
 
-        if (loginAPIRes.msg === "登录用户：" + usernameVal + " 不存在") {                     
+        if (loginAPIRes.msg === "登录用户：" + usernameVal + " 不存在" || loginAPIRes.msg ==="用户不存在/密码错误") {                     
             message.error("登录失败！请重新确认！")
             return;
         }
+
+        if (loginAPIRes.msg === "密码输入错误5次，帐户锁定10分钟") {
+            message.error("密码输入错误5次,帐户锁定10分钟")
+            return;
+        }
+
 
         if (loginAPIRes.msg === "验证码错误" || loginAPIRes.msg === "验证码已失效") {
             message.error("验证码错误或已失效！")

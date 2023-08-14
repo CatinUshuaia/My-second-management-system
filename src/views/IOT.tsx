@@ -1,8 +1,9 @@
+import Teamstatus from "../components/Teamstatus"
 
 export default function View() {
     return (
         <div className="user">
-            <p>IOT</p>
+            <Teamstatus />
         </div>
     )
 }

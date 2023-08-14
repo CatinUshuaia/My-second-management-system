@@ -1,7 +1,18 @@
-﻿const View = () => {
+﻿import Step from "@/components/Step"
+import Formstatus from "../components/Formstatus"
+
+
+const View = () => {
     return (
         <div className="home">
-            <p>这是Formstatus</p>
+            <Step />
+            <Formstatus />
+            <hr />
+            <Step />
+            <Formstatus />
+            <hr />
+            <Step />
+            <Formstatus />
         </div>
     )
 }
