@@ -1,5 +1,4 @@
-﻿
-开发工具：
+﻿开发工具：
 1.主要工具：react18+vite+antd+typescript
 2.其它工具：react-redux(用于仓库管理) sass(更好书写css) loadash(防抖库) 
             redux-thunk(解决react异步操作问题) axios(基于promise的网络请求库,用于登录界面)

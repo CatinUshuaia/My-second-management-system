@@ -5,8 +5,10 @@ import Login from "../views/Login"
 import {
     LoadingOutlined,
 } from '@ant-design/icons';
+const Homepage = lazy(() => import("../views/Homepage"))
 const Formsubmit = lazy(() => import("../views/Formsubmit"))
 const Formstatus = lazy(() => import("../views/Formstatus"))
+
 const Settings = lazy(() => import("../views/Settings"))
 const Password = lazy(() => import("../views/Password"))
 const Remarks = lazy(() => import("../views/Remarks"))
@@ -41,6 +43,9 @@ const routes = [
         element: <Home />,
         children: [
             {
+               path: "/Homepage",
+               element: withLoadingComponent(<Homepage />)
+            },{
             path: "/Formsubmit",
             element: withLoadingComponent(<Formsubmit />)
             },{
@@ -76,24 +81,8 @@ const routes = [
     //访问其余路径的时候直接跳到首页
     {
         path: "*",
-        element: <Navigate to="/Formsubmit" />
+        element: <Navigate to="/Homepage" />
     }
-  
-    //{
-    //    path: "/home",
-    //    element: <Home />,
-    //    children:[
-    //        {
-    //            path: "/page1",
-    //            element: withLoadingComponent(<Page1 />)
-    //        },
-    //    ]
-    //},
-
-    //{
-    //    path: "/exit",
-    //    element: withLoadingComponent(<Exit />)
-    //},
 
 ]
 export default routes

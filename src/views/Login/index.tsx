@@ -2,7 +2,6 @@
 import {useNavigate } from "react-router-dom"
 import {Input,Space,Button,message} from 'antd';
 import styles from "./login.module.scss"
-import initLoginBg from "./init.ts"
 import './login.less'
 import { CaptchaAPI, LoginAPI } from "@/request/api"
 
@@ -11,8 +10,6 @@ const view = () => {
     let navigateTo = useNavigate();
     //加载完这个组件之后,加载背景
     useEffect(() => {
-        initLoginBg();
-        window.onresize = function () { initLoginBg() };
 
         getCaptchaImg();
     }, [])
@@ -69,7 +66,7 @@ const view = () => {
         //2.保存token
             localStorage.setItem("formsubmission-token", loginAPIRes.token);
         //3.跳转到/page1
-            navigateTo("/formsubmit");
+            navigateTo("/homepage");
         //4.删除本地保存中的uuid
             localStorage.removeItem("uuid")
             return;

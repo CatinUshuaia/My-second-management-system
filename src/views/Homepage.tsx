@@ -1,8 +1,9 @@
 ﻿import { useDispatch, useSelector } from "react-redux"
 import numStatus from "@/store/NumStatus"
-import Submitform from "@/components/Submitform"
 import Floatbutton from "@/components/Floatbutton"
-import Formsubmitstatistic from "../components/Formsubmitstatistic"
+import Homebuttons from "@/components/Homebuttons"
+
+
 
 const View = () => {
     const dispatch = useDispatch()
@@ -25,22 +26,19 @@ const View = () => {
     //对sarr的操作
 
     return (
-        <div>
-            <div className="home" style={{ fontSize: 30, textAlign: 'left', padding: 10, lineHeight: '48px', color: 'grey' }}>
-                <p>Form Submission Page</p>
+        <div>   
+            <div className="home" style={{ fontSize: 30, paddingLeft: 10, lineHeight: '48px', color:'grey'}}>
+                <p>Homepage</p>
             </div>
-            <div className="home" style={{ fontSize: 30, textAlign: 'center', padding: 10, lineHeight: '48px', color: 'grey' }}>
-                <Formsubmitstatistic  />
-            </div>
-            <div>
-                <Submitform  />
+            <div className="homebuttons" >
+                <Homebuttons  />
             </div>
             {/*<p>这是Formsubmit页面</p>*/}
             {/*<p>请在这里提交你的表格</p>*/}
             {/*<p>{num}</p>*/}
             {/*<button onClick={changeNum}>异步操作按钮</button>*/}
             {/*<div>*/}
-            {/*    <button onClick={changeArr}>同步操作按钮</button>*/}
+            {/*<button onClick={changeArr}>同步操作按钮</button>*/}
             {/*</div>*/}
             <div>
                 <Floatbutton />

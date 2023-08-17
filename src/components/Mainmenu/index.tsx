@@ -1,7 +1,6 @@
 ﻿import React, { useState } from 'react';
 import {
-    DesktopOutlined,
-    UploadOutlined,
+    HomeOutlined,
     TeamOutlined,
     UserOutlined,
     LogoutOutlined
@@ -13,16 +12,12 @@ import { useNavigate, useLocation } from "react-router-dom"
 type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
-    {
-        label: 'Form submit',
-        key: '/formsubmit',
-        icon: <UploadOutlined />
-    },
+
 
     {
-        label: 'Form status',
-        key: '/formstatus',
-        icon: <DesktopOutlined />
+        label: 'Home',
+        key: '/homepage',
+        icon: < HomeOutlined />
     },
 
     {
@@ -70,34 +65,7 @@ const items: MenuItem[] = [
          icon: <LogoutOutlined />
     },
 
-
 ];
-
-
-//function getItem(
-//    label: React.ReactNode,
-//    key: React.Key,
-//    icon?: React.ReactNode,
-//    children?: MenuItem[],
-//): MenuItem {
-//    return {
-//        key,
-//        icon,
-//        children,
-//        label,
-//    } as MenuItem;
-//}
-
-    //getItem('Form submit', '/formsubmit', <UploadOutlined />),
-    //getItem('Form status', '/formstatus', <DesktopOutlined />),
-    //getItem('User', 'sub1', <UserOutlined />, [
-    //    getItem('Settings', '/settings',),
-    //    getItem('Password', '/password',),
-    //    getItem('Remarks', '/remarks',),
-    //]),
-    //getItem('Team', 'sub2', <TeamOutlined />, [getItem('IOT', '/iot'), getItem('MIT', '/mit')]),
-    //getItem('Exit', '/exit', <LogoutOutlined />)
-
 
 
 const Comp: React.FC = () => { 
