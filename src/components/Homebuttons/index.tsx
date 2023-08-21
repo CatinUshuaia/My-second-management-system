@@ -10,13 +10,19 @@ const Homebuttons: React.FC = () => {
 
     const handleRecordClick = (e:any) => {
 
-        navigateTo("/formsubmit");
+        navigateTo("/templates");
 
     }
 
     const handleSearchClick = (e: any) => {
 
-        navigateTo("/formstatus");
+        navigateTo("/formsearch");
+
+    }
+
+    const handleCalendarClick = (e: any) => {
+
+        navigateTo("/homepage");
 
     }
 
@@ -30,6 +36,10 @@ const Homebuttons: React.FC = () => {
 
             <Button type="primary" block size="large" icon={<SearchOutlined />} onClick={handleSearchClick}>
                 Search Record
+            </Button>
+
+            <Button type="primary" block size="large" icon={<SearchOutlined />} onClick={handleCalendarClick}>
+                Calendar
             </Button>
 
         </Space>

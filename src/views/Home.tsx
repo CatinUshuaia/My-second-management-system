@@ -5,7 +5,6 @@ import { Outlet } from "react-router-dom"
 import Mainmenu from "@/components/Mainmenu" 
 import Avator from "@/components/Avatar"
 
-
 const { Header, Content, Footer, Sider } = Layout;
 
 
@@ -19,11 +18,11 @@ const View: React.FC = () => {
 
 
     return (
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout style={{ minHeight: '100vh'}}>
 
             {/*左侧侧边栏*/}
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>      
-                < div className="brand" >
+                <div className="brand" >
                     <Avator /> 
                 </div>
                 <Mainmenu />
@@ -32,8 +31,8 @@ const View: React.FC = () => {
 
             <Layout>
                 {/*右侧头部*/}
-                <Header style={{ paddingLeft: '16px', background: colorBgContainer }} >
-                    <div className="homeimg">
+                <Header style={{ paddingLeft: '16px', background: colorBgContainer}} >
+                    <div>
                         {/*水平居中写法待修改*/}
                         <img src="/src/img/logo.png" style={{marginLeft:706 , height:60}} alt="img" />
                     </div>

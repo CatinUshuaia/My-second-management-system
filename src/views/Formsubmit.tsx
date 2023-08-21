@@ -2,7 +2,6 @@
 import numStatus from "@/store/NumStatus"
 import Submitform from "@/components/Submitform"
 import Floatbutton from "@/components/Floatbutton"
-import Formsubmitstatistic from "../components/Formsubmitstatistic"
 
 const View = () => {
     const dispatch = useDispatch()
@@ -27,10 +26,7 @@ const View = () => {
     return (
         <div>
             <div className="home" style={{ fontSize: 30, textAlign: 'left', padding: 10, lineHeight: '48px', color: 'grey' }}>
-                <p>Form Submission Page</p>
-            </div>
-            <div className="home" style={{ fontSize: 30, textAlign: 'center', padding: 10, lineHeight: '48px', color: 'grey' }}>
-                <Formsubmitstatistic  />
+                <p>Form Submission</p>
             </div>
             <div>
                 <Submitform  />

@@ -5,6 +5,7 @@ import Homebuttons from "@/components/Homebuttons"
 
 
 
+
 const View = () => {
     const dispatch = useDispatch()
     //通过useSelector获取仓库数据
@@ -23,12 +24,12 @@ const View = () => {
     }
 
 
-    //对sarr的操作
+    //对sarr的操作+
 
     return (
         <div>   
-            <div className="home" style={{ fontSize: 30, paddingLeft: 10, lineHeight: '48px', color:'grey'}}>
-                <p>Homepage</p>
+            <div className="home" style={{ fontSize: 30, paddingLeft: 10, lineHeight: '48px', color: 'grey' }}>
+                <p>Welcome,Chan Tai Man</p>
             </div>
             <div className="homebuttons" >
                 <Homebuttons  />

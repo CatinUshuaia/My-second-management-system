@@ -15,7 +15,8 @@ const Remarks = lazy(() => import("../views/Remarks"))
 const IOT = lazy(() => import("../views/IOT"))
 const MIT = lazy(() => import("../views/MIT"))
 const Exit = lazy(() => import("../views/Exit"))
-
+const Templates = lazy(() => import("../views/Templates"))
+const Formsearch = lazy(() => import("../views/Formsearch"))
 
 
 
@@ -69,6 +70,12 @@ const routes = [
             }, {
                 path: "/Exit",
                 element: withLoadingComponent(<Exit />)
+            }, {
+                path: "/Templates",
+                element: withLoadingComponent(<Templates />)
+            }, {
+                path: "/Formsearch",
+                element: withLoadingComponent(<Formsearch />)
             },
         ]
     },
