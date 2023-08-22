@@ -28,7 +28,7 @@ const View = () => {
 
     return (
         <div>   
-            <div className="home" style={{ fontSize: 30, paddingLeft: 10, lineHeight: '48px', color: 'grey' }}>
+            <div className="home" style={{ fontSize: 30, padding:20,lineHeight: '48px', color: 'grey' }}>
                 <p>Welcome,Chan Tai Man</p>
             </div>
             <div className="homebuttons" >

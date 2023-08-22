@@ -34,7 +34,7 @@ const View: React.FC = () => {
                 <Header style={{ paddingLeft: '16px', background: colorBgContainer}} >
                     <div>
                         {/*水平居中写法待修改*/}
-                        <img src="/src/img/logo.png" style={{marginLeft:706 , height:60}} alt="img" />
+                        <img src="/src/img/logo.jpg" style={{marginLeft:706 , height:60}} alt="img" />
                     </div>
                 </Header>
                 {/*右侧大空白*/}
@@ -43,7 +43,7 @@ const View: React.FC = () => {
                     <Outlet />
                 </Content>
 
-                <Footer style={{ textAlign: 'center' ,padding:0,lineHeight:'48px'}}>Ant Design ©2023 Created by Ant UED</Footer>
+                <Footer style={{ textAlign: 'center' ,padding:0,lineHeight:'48px',}}>Ant Design ©2023 Created by Ant UED</Footer>
             </Layout>
         </Layout>
     );
