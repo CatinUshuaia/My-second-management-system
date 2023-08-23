@@ -100,6 +100,10 @@ const view = () => {
 
     }
 
+    const handleforgetPwd = () => {
+        message.info('忘记密码，请联系IT部门');
+    }
+
     return (
         <div className="login-container">
             <div className="pageHeader">
@@ -107,7 +111,7 @@ const view = () => {
             </div>
             <div className="login-box">
                 <div className="login-text">
-                    <span>登录</span>
+                    <span>Login</span>
                 </div>
                 <div className="right-content">
 
@@ -116,17 +120,17 @@ const view = () => {
                     <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
                     <Input type="text"
                         className="input"
-                        placeholder="用户名"
+                        placeholder="Username"
                         onChange={usernameChange} />
 
                     <Input.Password
                         type="text"
                         className="input"
-                        placeholder="密码"
+                        placeholder="Password"
                         onChange={passwordChange} />
 
                         <div>
-                        <Input placeholder="验证码" onChange={captchaChange} />
+                        <Input placeholder="Captcha" onChange={captchaChange} />
 
                             <div onClick={getCaptchaImg} >
                             <img
@@ -138,9 +142,11 @@ const view = () => {
                     </div>
                 
                     <Button className="loginBtn" type="primary" block onClick={gotoLogin}>
-                        登录
+                        Staff Login
                     </Button>
-                   
+                    <div className="option">
+                        <span className="forget-pwd" onClick={handleforgetPwd}>Forgot Password?</span>
+                    </div>
                 </div>
             </div>
         </div>
