@@ -6,19 +6,19 @@ import Floatbutton from "@/components/Floatbutton"
 const View = () => {
     const dispatch = useDispatch()
     //通过useSelector获取仓库数据
-    const { num } = useSelector((state: RootState) => ({
-        num: state.handleNum.num
-    }))
+    //const { num } = useSelector((state: RootState) => ({
+    //    num: state.handleNum.num
+    //}))
 
-    //修改仓库数据
-    const changeNum = () => {
-        dispatch(numStatus.asyncActions.asyncAdd1)
+    ////修改仓库数据
+    //const changeNum = () => {
+    //    dispatch(numStatus.asyncActions.asyncAdd1)
 
-    }
+    //}
 
-    const changeArr = () => {
-        dispatch({ type: "sarrpush", val: 10 })
-    }
+    //const changeArr = () => {
+    //    dispatch({ type: "sarrpush", val: 10 })
+    //}
 
 
     //对sarr的操作

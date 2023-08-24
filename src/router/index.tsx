@@ -8,7 +8,6 @@ import {
 const Homepage = lazy(() => import("../views/Homepage"))
 const Formsubmit = lazy(() => import("../views/Formsubmit"))
 const Formstatus = lazy(() => import("../views/Formstatus"))
-
 const Settings = lazy(() => import("../views/Settings"))
 const Password = lazy(() => import("../views/Password"))
 const Remarks = lazy(() => import("../views/Remarks"))
@@ -40,7 +39,13 @@ const SoilandaggregatephaseI = lazy(() => import("../views/Createrecord/Soilanda
 const SoilPh2 = lazy(() => import("../views/Createrecord/SoilPh2"))
 const Steel = lazy(() => import("../views/Createrecord/Steel"))
 const Zhongshan2013 = lazy(() => import("../views/Createrecord/Zhongshan2013"))
-
+const Calibration = lazy(() => import("../views/Createrecord/Calibration"))
+const Fire = lazy(() => import("../views/Createrecord/Fire"))
+const Deepcementmaterialtestinglab = lazy(() => import("../views/Createrecord/Deepcementmaterialtestinglab"))
+const Waterworksproductinsp = lazy(() => import("../views/Createrecord/Waterworksproductinsp"))
+const INWW_MANHOLE = lazy(() => import("../views/Createrecord/Waterworksproductinsp/INWW_MANHOLE"))
+const INWW_MHCOV_INSPECT = lazy(() => import("../views/Createrecord/Waterworksproductinsp/INWW_MANHOLE/INWW_MHCOV_INSPECT"))
+    
 
 
 // Navigate 重定向组件
@@ -95,7 +100,7 @@ const routes = [
                 element: withLoadingComponent(<Exit />)
             }, {
                 path: "/Createrecord",
-                element: withLoadingComponent(<Createrecord />)
+                element: withLoadingComponent(<Createrecord />),                   
             }, {
                 path: "/Formsearch",
                 element: withLoadingComponent(<Formsearch />)
@@ -168,6 +173,25 @@ const routes = [
             }, {
                 path: "/Createrecord/Zhongshan2013",
                 element: withLoadingComponent(<Zhongshan2013 />)
+            }, {
+                path: "/Createrecord/Calibration",
+                element: withLoadingComponent(<Calibration />)
+            }, {
+                path: "/Createrecord/Fire",
+                element: withLoadingComponent(<Fire />)
+            }, {
+                path: "/Createrecord/Deepcementmaterialtestinglab",
+                element: withLoadingComponent(<Deepcementmaterialtestinglab />)
+            }, {
+                path: "/Createrecord/Waterworksproductinsp",
+                element: withLoadingComponent(<Waterworksproductinsp />)
+            }, {
+                path: "/Createrecord/Waterworksproductinsp/INWW_MANHOLE",
+                element: withLoadingComponent(<INWW_MANHOLE />)
+            },
+            {
+                path: "/Createrecord/Waterworksproductinsp/INWW_MANHOLE/INWW_MHCOV_INSPECT",
+                element: withLoadingComponent(<INWW_MHCOV_INSPECT />)
             },
         ]
     },

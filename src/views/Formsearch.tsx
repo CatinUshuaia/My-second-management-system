@@ -1,4 +1,4 @@
-﻿import Formsearch from "../components/Formsearch"
+﻿import Searchtest from "@/components/Searchtest"
 
 
 const View = () => {
@@ -8,7 +8,7 @@ const View = () => {
             Search Record
         </div>
         <div className="formsearch">      
-            <Formsearch/>
+            <Searchtest  />
         </div> 
         </>
     )
