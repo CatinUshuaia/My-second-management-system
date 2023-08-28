@@ -9,4 +9,6 @@ export const CaptchaAPI = ()
 
 //登录请求
 export const LoginAPI = (params:LoginAPIRes)
-    : Promise<LoginAPIRes> => request.post("/prod-api/login",params);
+    : Promise<LoginAPIRes> => request.post("/prod-api/login", params);
+
+//其它请求

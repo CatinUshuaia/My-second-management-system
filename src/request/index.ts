@@ -6,12 +6,14 @@ const instance = axios.create({
     // 这个时间是你每次请求的过期时间，这次请求认为20秒之后这个请求就是失败的
     timeout: 20000
 })
+
 // 请求拦截器
 instance.interceptors.request.use(config => {
     return config
 }, err => {
     return Promise.reject(err)
 });
+
 // 响应拦截器
 instance.interceptors.response.use(res => {
     return res.data

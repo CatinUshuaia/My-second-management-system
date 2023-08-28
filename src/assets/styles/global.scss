@@ -1,6 +1,5 @@
-﻿$color: grey;
-body{
-    background-color: $color;
+﻿
+body {
     //禁用文字选中
     user-select: none;
 }
@@ -17,7 +16,113 @@ img{
     overflow: hidden;
     border-radius: 50%;
     margin: 30px auto;
-    box-shadow: 0 4px 8px rgba(0,0,0,.05);
-    position: relative;
-    z-index: 1;
+}
+
+.homebuttons {
+    text-align: center;
+    margin: 80px auto;
+}
+
+.headimg {
+    width:128px;
+    height:100px;
+    position:relative;
+    text-align: center;
+}
+
+.search {
+    text-align: center;
+}
+
+.formsearch {
+    text-align: center;
+    margin: 20px auto;
+}
+
+.templatebuttons {
+    text-align: center;
+    margin-left: 300px;
+}
+
+
+
+//以下是登录界面样式
+
+.login-container {
+    background-image: url('./src/img/loginbackground.jpg');
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+.pageHeader {
+    padding-top: 30px;
+    padding-left: 40px;
+
+    img {
+        vertical-align: middle;
+        display: inline-block;
+        margin-right: 15px;
+        height: 40px;
+    }
+}
+
+.login-box {
+    position: absolute;
+    left: 38vw;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 1px 11px rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+    /*margin: 100px auto 0;*/
+    width: 420px;
+    background: #fff;
+    padding: 45px 35px;
+}
+
+
+.login-text {
+    width: 100%;
+    text-align: center;
+    padding: 0 0 30px;
+    font-size: 24px;
+    letter-spacing: 1px;
+
+    span {
+        padding: 10px;
+        color: #969696;
+        }
+    }
+
+.loginBtn {
+    width: 100%;
+    height: 45px;
+    margin-top: 40px;
+    font-size: 15px;
+}
+
+.homepageBtn {
+    width: 75%;
+    height: 65px;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.option {
+    text-align: left;
+    margin-top: 18px;
+
+    .forget-pwd {
+        float: right;
+        font-size: 14px;
+        font-weight: 400;
+        color: #4981f2;
+        line-height: 20px;
+        cursor: pointer;
+    }
 }

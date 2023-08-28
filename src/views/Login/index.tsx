@@ -1,19 +1,14 @@
 ﻿import { ChangeEvent, useEffect, useState } from "react"
 import {useNavigate } from "react-router-dom"
 import {Input,Space,Button,message} from 'antd';
-import styles from "./login.module.scss"
-import initLoginBg from "./init.ts"
-import './login.less'
 import { CaptchaAPI, LoginAPI } from "@/request/api"
+import logo from "@/img/logo.jpg";
 
 const view = () => {
 
     let navigateTo = useNavigate();
     //加载完这个组件之后,加载背景
     useEffect(() => {
-        initLoginBg();
-        window.onresize = function () { initLoginBg() };
-
         getCaptchaImg();
     }, [])
 
@@ -58,7 +53,7 @@ const view = () => {
         let loginAPIRes = await LoginAPI({
             username: usernameVal,
             password: passwordVal,
-            code: captchaVal,
+            code: captchaVal as unknown as number,   //待确认
             uuid: localStorage.getItem("uuid") as string
         })
 
@@ -69,7 +64,7 @@ const view = () => {
         //2.保存token
             localStorage.setItem("formsubmission-token", loginAPIRes.token);
         //3.跳转到/page1
-            navigateTo("/formsubmit");
+            navigateTo("/homepage");
         //4.删除本地保存中的uuid
             localStorage.removeItem("uuid")
             return;
@@ -105,34 +100,53 @@ const view = () => {
 
     }
 
+    const handleforgetPwd = () => {
+        message.info('忘记密码，请联系IT部门');
+    }
+
     return (
-        <div className={styles.loginPage}>
-            {/*存放背景*/ }
-            <canvas id="canvas" style={{ display: "block" }}></canvas>
-            {/*登录盒子*/ }
-            <div className={styles.loginBox+" loginbox"}>
-                {/*标题部分*/ }
-                <div className={styles.title}>
-                    <h1>Hugo&nbsp;·&nbsp;表单提交系统</h1>
-                    <p>Castco Testing Center Ltd.</p>
+        <div className="login-container">
+            <div className="pageHeader">
+                <img src={logo} alt="logo" />
+            </div>
+            <div className="login-box">
+                <div className="login-text">
+                    <span>Login</span>
                 </div>
-                {/*表单部分*/ }
-                <div className="form">
-                    <Space direction="vertical" size="large" style={{ display: 'flex' }}>
-                        <Input placeholder="用户名" onChange={usernameChange} />
-                        <Input.Password placeholder="密码" onChange={passwordChange} />
-                        <div className="captchaBox">
-                            <Input placeholder="验证码" onChange={captchaChange} />
-                            <div className="captchImg " onClick={getCaptchaImg} >
-                            <img height="38"
-                                    src={captchaImg}
+                <div className="right-content">
+
+                
+                    <div className="input-box">
+                    <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+                    <Input type="text"
+                        className="input"
+                        placeholder="Username"
+                        onChange={usernameChange} />
+
+                    <Input.Password
+                        type="text"
+                        className="input"
+                        placeholder="Password"
+                        onChange={passwordChange} />
+
+                        <div>
+                        <Input placeholder="Captcha" onChange={captchaChange} />
+
+                            <div onClick={getCaptchaImg} >
+                            <img
+                                src={captchaImg}
                                 alt="" />
-                            </div>
+                            </div>  
                         </div>
-                        <Button type="primary" className="loginBtn" block onClick={gotoLogin}>
-                            登录
-                        </Button>
-                    </Space>
+                        </Space>
+                    </div>
+                
+                    <Button className="loginBtn" type="primary" block onClick={gotoLogin}>
+                        Staff Login
+                    </Button>
+                    <div className="option">
+                        <span className="forget-pwd" onClick={handleforgetPwd}>Forgot Password?</span>
+                    </div>
                 </div>
             </div>
         </div>
