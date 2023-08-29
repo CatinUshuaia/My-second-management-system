@@ -7,12 +7,64 @@ interface User {
   provider: number;
 }
 
+const labData = [
+    'Bitumen',
+    'Buildingcomponent',
+    'Buildingcomponentrock',
+    'Buildingdiagnostic',
+    'Calibration',
+    'Cement',
+    'Chemical',
+    'Chinesemedicine',
+    'Concretecore',
+    'Concretecube',
+    'Deepcementmaterialtestinglab',
+    'Drainagepipe',
+    'Environmental',
+    'Fire',
+    'Food',
+    'Generaloffice',
+    'Geotechnicinvestigation',
+    'Microbiological',
+    'NDTwelding',
+    'Paint',
+    'Piling',
+    'Site',
+    'SoilandaggregatephaseI',
+    'SoilPh2',
+    'Steel',
+    'Waterworksproductinsp',
+    'Zhongshan2013'
+];
 
-const provinceData = ['Zhejiang', 'Jiangsu'];
-
-const cityData = {
-    Zhejiang: ['Hangzhou' as any, 'Ningbo' as any, 'Wenzhou' as any],
-    Jiangsu: ['Nanjing' as any, 'Suzhou' as any, 'Zhenjiang' as any],
+const testData = {
+    Bitumen: [],
+    Buildingcomponent: [],
+    Buildingcomponentrock: [],
+    Buildingdiagnostic: [],
+    Calibration: [],
+    Cement: [],
+    Chemical: [],
+    Chinesemedicine: [],
+    Concretecore: [],
+    Concretecube: [],
+    Deepcementmaterialtestinglab: [],
+    Drainagepipe: [],
+    Environmental: [],
+    Fire: [],
+    Food: [],
+    Generaloffice: [],
+    Geotechnicinvestigation: [],
+    Microbiological: [],
+    NDTwelding: [],
+    Paint: [],
+    Piling: [],
+    Site: [],
+    SoilandaggregatephaseI: [],
+    SoilPh2: [],
+    Steel: [],
+    Waterworksproductinsp: ['INWW_MHCOV_INSPECT' as any],
+    Zhongshan2013: []
 };
 
 
@@ -31,11 +83,13 @@ const Searchtest: React.FC = () => {
   };
 
   const resetSearch = () => {
-    setSearchText('');
-    setData([]);
+      setSearchText('');
+      setData([]);
+      setLabs(testData[labData[0] as TestName]);
+      setTest(testData[labData[0] as TestName][0]);
     };
 
-    type CityName = keyof typeof cityData;
+    type TestName = keyof typeof testData;
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id' },
@@ -44,16 +98,16 @@ const Searchtest: React.FC = () => {
     ];
 
     //search³¡¤À
-    const [cities, setCities] = useState(cityData[provinceData[0] as CityName]);
-    const [secondCity, setSecondCity] = useState(cityData[provinceData[0] as CityName][0]);
+    const [labs, setLabs] = useState(testData[labData[0] as TestName]);
+    const [test, setTest] = useState(testData[labData[0] as TestName][0]);
 
-    const handleProvinceChange = (value: CityName) => {
-        setCities(cityData[value]);
-        setSecondCity(cityData[value][0]);
+    const handleLabChange = (value: TestName) => {
+        setLabs(testData[value]);
+        setTest(testData[value][0]);
     };
 
-    const onSecondCityChange = (value: CityName) => {
-        setSecondCity(value);
+    const ontestChange = (value: TestName) => {
+        setTest(value);
     };
 
 
@@ -67,29 +121,26 @@ const Searchtest: React.FC = () => {
           <Space direction="vertical" size="large">
               Lab:<Select
                   style={{ width: 480 }}
-                  onChange={handleProvinceChange}
-                  options={provinceData.map((province) => ({ label: province, value: province }))}
+                  onChange={handleLabChange}
+                  options={labData.map((lab) => ({ label: lab, value: lab }))}
               />
 
 
               Test:<Select
                   style={{ width: 480 }}
-                  value={secondCity}
-                  onChange={onSecondCityChange}
-                  options={cities.map((city) => ({ label: city, value: city }))}
+                  value={test}
+                  onChange={ontestChange}
+                  options={labs.map((test: any) => ({ label: test, value: test }))}
               />
 
 
               Date From:<DatePicker style={{ width: 480 }} onChange={onChange} />
               Date To:<DatePicker style={{ width: 480 }} onChange={onChange} />
 
+            <Button type="primary" block onClick={handleSearch} style={{ marginBottom: '16px'}}>
+              Search
+            </Button>
           </Space>
-      <div style={{ marginBottom: '16px' ,marginTop:'16px'}}>
-        <Button type="primary" onClick={handleSearch} style={{ marginRight: '16px' }} >
-          Search
-        </Button>
-        <Button onClick={resetSearch}>Reset</Button>
-      </div>
       <Table columns={columns} dataSource={data} />
     </>
   );

@@ -1,7 +1,8 @@
 ﻿import { useDispatch, useSelector } from "react-redux"
 import numStatus from "@/store/NumStatus"
 import Submitform from "@/components/Submitform"
-import Floatbutton from "@/components/Floatbutton"
+
+
 
 const View = () => {
     const dispatch = useDispatch()
@@ -38,9 +39,7 @@ const View = () => {
             {/*<div>*/}
             {/*    <button onClick={changeArr}>同步操作按钮</button>*/}
             {/*</div>*/}
-            <div>
-                <Floatbutton />
-            </div>
+
         </div>
     )
 }

@@ -7,13 +7,13 @@ import {
 } from '@ant-design/icons';
 const Homepage = lazy(() => import("../views/Homepage"))
 const Formsubmit = lazy(() => import("../views/Formsubmit"))
-const Formstatus = lazy(() => import("../views/Formstatus"))
 const Settings = lazy(() => import("../views/Settings"))
 const Password = lazy(() => import("../views/Password"))
 const Remarks = lazy(() => import("../views/Remarks"))
 const IOT = lazy(() => import("../views/IOT"))
 const MIT = lazy(() => import("../views/MIT"))
 const Exit = lazy(() => import("../views/Exit"))
+const Successpage = lazy(() => import("../views/Successpage"))
 const Createrecord = lazy(() => import("../views/Createrecord"))
 const Formsearch = lazy(() => import("../views/Formsearch"))
 const Bitumen = lazy(() => import("../views/Createrecord/Bitumen"))
@@ -74,13 +74,10 @@ const routes = [
             {
                path: "/Homepage",
                element: withLoadingComponent(<Homepage />)
-            },{
-            path: "/Formsubmit",
-            element: withLoadingComponent(<Formsubmit />)
-            },{
-                path: "/Formstatus",
-                element: withLoadingComponent(<Formstatus />)
-            },{
+            }, {
+                path: "/Formsubmit",
+                element: withLoadingComponent(<Formsubmit />)
+            }, {
                 path: "/Settings",
                 element: withLoadingComponent(<Settings />)
             }, {
@@ -98,12 +95,15 @@ const routes = [
             }, {
                 path: "/Exit",
                 element: withLoadingComponent(<Exit />)
-            }, {
-                path: "/Createrecord",
-                element: withLoadingComponent(<Createrecord />),                   
-            }, {
+            }, , {
+                path: "/Successpage",
+                element: withLoadingComponent(<Successpage />)
+            },{
                 path: "/Formsearch",
                 element: withLoadingComponent(<Formsearch />)
+            }, {
+                path: "/Createrecord",
+                element: withLoadingComponent(<Createrecord />),  
             }, {
                 path: "/Createrecord/Bitumen",
                 element: withLoadingComponent(<Bitumen />)
