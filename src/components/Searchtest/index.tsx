@@ -1,11 +1,72 @@
 import { useState } from 'react';
-import { Input, Button, Table } from 'antd';
+import { Input, Button, Table, Space, DatePickerProps, Select, DatePicker } from 'antd';
 
 interface User {
   id: number;
-  name: string;
-  age: number;
+  formname: string;
+  provider: number;
 }
+
+const labData = [
+    'Bitumen',
+    'Buildingcomponent',
+    'Buildingcomponentrock',
+    'Buildingdiagnostic',
+    'Calibration',
+    'Cement',
+    'Chemical',
+    'Chinesemedicine',
+    'Concretecore',
+    'Concretecube',
+    'Deepcementmaterialtestinglab',
+    'Drainagepipe',
+    'Environmental',
+    'Fire',
+    'Food',
+    'Generaloffice',
+    'Geotechnicinvestigation',
+    'Microbiological',
+    'NDTwelding',
+    'Paint',
+    'Piling',
+    'Site',
+    'SoilandaggregatephaseI',
+    'SoilPh2',
+    'Steel',
+    'Waterworksproductinsp',
+    'Zhongshan2013'
+];
+
+const testData = {
+    Bitumen: [],
+    Buildingcomponent: [],
+    Buildingcomponentrock: [],
+    Buildingdiagnostic: [],
+    Calibration: [],
+    Cement: [],
+    Chemical: [],
+    Chinesemedicine: [],
+    Concretecore: [],
+    Concretecube: [],
+    Deepcementmaterialtestinglab: [],
+    Drainagepipe: [],
+    Environmental: [],
+    Fire: [],
+    Food: [],
+    Generaloffice: [],
+    Geotechnicinvestigation: [],
+    Microbiological: [],
+    NDTwelding: [],
+    Paint: [],
+    Piling: [],
+    Site: [],
+    SoilandaggregatephaseI: [],
+    SoilPh2: [],
+    Steel: [],
+    Waterworksproductinsp: ['Water Works Inspection - Manhole Cover Inspection' as any],
+    Zhongshan2013: []
+};
+
 
 const Searchtest: React.FC = () => {
   const [searchText, setSearchText] = useState('');
@@ -14,7 +75,7 @@ const Searchtest: React.FC = () => {
   const handleSearch = () => {
     let filteredData = [];
     if (searchText) {
-      filteredData = data.filter((user) => user.name.toLowerCase().includes(searchText.toLowerCase()));
+      filteredData = data.filter((user) => user.formname.toLowerCase().includes(searchText.toLowerCase()));
     } else {
       filteredData = data;
     }
@@ -22,25 +83,64 @@ const Searchtest: React.FC = () => {
   };
 
   const resetSearch = () => {
-    setSearchText('');
-    setData([]);
-  };
+      setSearchText('');
+      setData([]);
+      setLabs(testData[labData[0] as TestName]);
+      setTest(testData[labData[0] as TestName][0]);
+    };
+
+    type TestName = keyof typeof testData;
 
   const columns = [
     { title: 'ID', dataIndex: 'id', key: 'id' },
-    { title: 'Name', dataIndex: 'name', key: 'name' },
-    { title: 'Age', dataIndex: 'age', key: 'age' },
-  ];
+      { title: 'Formname', dataIndex: 'formname', key: 'formname' },
+      { title: 'Provider', dataIndex: 'provider', key: 'provider' },
+    ];
+
+    //search³¡¤À
+    const [labs, setLabs] = useState(testData[labData[0] as TestName]);
+    const [test, setTest] = useState(testData[labData[0] as TestName][0]);
+
+    const handleLabChange = (value: TestName) => {
+        setLabs(testData[value]);
+        setTest(testData[value][0]);
+    };
+
+    const ontestChange = (value: TestName) => {
+        setTest(value);
+    };
+
+
+    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+        console.log(date, dateString);
+    };
+
 
   return (
-    <>
-      <div style={{ marginBottom: '16px' }}>
-        <Input value={searchText} onChange={(e) => setSearchText(e.target.value)} placeholder="Enter keyword" />
-        <Button type="primary" onClick={handleSearch}>
-          Search
-        </Button>
-        <Button onClick={resetSearch}>Reset</Button>
-      </div>
+      <>
+          <Space direction="vertical" size="large">
+              Lab:<Select
+                  style={{ width: 480 }}
+                  onChange={handleLabChange}
+                  options={labData.map((lab) => ({ label: lab, value: lab }))}
+              />
+
+
+              Test:<Select
+                  style={{ width: 480 }}
+                  value={test}
+                  onChange={ontestChange}
+                  options={labs.map((test: any) => ({ label: test, value: test }))}
+              />
+
+
+              Date From:<DatePicker style={{ width: 480 }} onChange={onChange} />
+              Date To:<DatePicker style={{ width: 480 }} onChange={onChange} />
+
+            <Button type="primary" block onClick={handleSearch} style={{ marginBottom: '16px'}}>
+              Search
+            </Button>
+          </Space>
       <Table columns={columns} dataSource={data} />
     </>
   );

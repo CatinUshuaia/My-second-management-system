@@ -1,6 +1,5 @@
 ﻿import { useDispatch, useSelector } from "react-redux"
 import numStatus from "@/store/NumStatus"
-import Floatbutton from "@/components/Floatbutton"
 import Homebuttons from "@/components/Homebuttons"
 
 
@@ -41,9 +40,6 @@ const View = () => {
             {/*<div>*/}
             {/*<button onClick={changeArr}>同步操作按钮</button>*/}
             {/*</div>*/}
-            <div>
-                <Floatbutton />
-            </div>
         </div>
     )
 }
