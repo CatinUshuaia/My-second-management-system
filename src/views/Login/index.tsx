@@ -4,6 +4,8 @@ import {Input,Space,Button,message} from 'antd';
 import {LoginAPI } from "@/request/api"
 import logo from "@/img/logo.jpg";
 
+
+
 const view = () => {
 
     let navigateTo = useNavigate();
@@ -45,17 +47,18 @@ const view = () => {
 
         console.log(loginAPIRes);   
         
-        if (loginAPIRes.message === "登录成功") {
+        if (loginAPIRes.success === true) {
             //1.提示登录成功
             message.success("登录成功！");
             //2.保存token
             localStorage.setItem("formsubmission-token", loginAPIRes.data.accesstoken);
+
             //3.跳转到/page1
             navigateTo("/homepage");
             return;
         }
 
-        if (loginAPIRes.message === "用户名或密码错误") {
+        if (loginAPIRes.success === false) {
             message.error("用户名或密码错误")
             return;
         }
