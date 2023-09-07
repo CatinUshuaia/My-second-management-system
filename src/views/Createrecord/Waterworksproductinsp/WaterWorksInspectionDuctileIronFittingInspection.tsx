@@ -2,16 +2,10 @@
 import {Button,Form,Input,Radio,Select,Upload,Modal,message,} from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import Componentnuminput from '@/components/Componentnuminput/index'
 
 const { TextArea } = Input;
-const units = [
-    { value: '-', label: '-' },
-    { value: 'mm', label: 'mm' },
-    { value: 'cm', label: 'cm' },
-    { value: 'µm', label: 'µm' },
-    { value: 'Bar', label: 'Bar' },
-    { value: 'min', label: 'min' },
-]
+
 
 const normFile = (e: any) => {
     if (Array.isArray(e)) {
@@ -19,6 +13,7 @@ const normFile = (e: any) => {
     }
     return e?.fileList;
 };
+
 
 const View = () => {
     const navigateTo = useNavigate();
@@ -67,10 +62,6 @@ const View = () => {
     };
 
 
-    const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-    };
-
     const onFinish = (values: any) => {
         console.log('Success:', values);
         setModalText('Are you sure to submit this test result?');
@@ -85,7 +76,7 @@ const View = () => {
 
         <div>
             <div className="home" style={{ fontSize: 30, textAlign: 'left', padding: 10, lineHeight: '48px', color: 'grey' }}>
-                <p>Water Works Inspection - Manhole Cover Inspection template</p>
+                <p>Water Works Inspection - Ductile Iron Fitting Inspection template</p>
             </div>
             {contextHolder}
             <Form
@@ -97,182 +88,16 @@ const View = () => {
                 onFinishFailed={onFinishFailed}
             >
 
-                <Form.Item
-                    label="*Dia. of bolt circle"
-                    >
-                    <Form.Item
-                        name="*Dia. of bolt circle Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input  />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Dia. of bolt circle Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}
-                        />
-                    </Form.Item>
-                </Form.Item>
+                <Componentnuminput label={"*Dia. of bolt circle"} rules={[{required: true}]} />
+                <Componentnuminput label={"*External diameter"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Effective length"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Iron thickness"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Cement lining thickness"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Epoxy coating thickness"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Bitumen Coating thickness"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Cover Height"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*hydrostatic pressure test duration"} rules={[{ required: true }]} />
 
-                <Form.Item label="*External diameter">
-                    <Form.Item
-                        name="*External diameter Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*External diameter Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                            
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Effective length">
-                    <Form.Item
-                        name="*Effective length Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Effective length Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                         
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Iron thickness">
-                    <Form.Item
-                        name="*Iron thickness Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Iron thickness Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                           
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Cement lining thickness">
-                    <Form.Item
-                        name="*Cement lining thickness Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Cement lining thickness Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                            
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Epoxy coating thickness">
-                    <Form.Item
-                        name="*Epoxy coating thickness Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Epoxy coating thickness Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                         
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Bitumen Coating thickness">
-                    <Form.Item
-                        name="*Bitumen Coating thickness Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Bitumen Coating thickness Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                          
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Cover Height">
-                    <Form.Item
-                        name="*hydrostatic pressure test bar Value" 
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*hydrostatic pressure test bar Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                           
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*hydrostatic pressure test duration">
-                    <Form.Item
-                        name="*hydrostatic pressure test duration Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*hydrostatic pressure test duration Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                            
-                        />
-                    </Form.Item>
-                </Form.Item>
-                
-            
                 <Form.Item label="Other Tests">
                     <TextArea rows={4} />
                 </Form.Item>
@@ -285,14 +110,15 @@ const View = () => {
                 </div>
                     </Upload>
                 </Form.Item>
+
                 <Form.Item label="Project Number">
                     <Form.Item
-                        name="Project Number"
                         style={{ display: 'inline-block' }}
+                        name="Project Number"
                     >
                         <Input />
                     </Form.Item>
-                </Form.Item> 
+                </Form.Item>
 
                 <Form.Item className="templatebuttons">
                     <Button type="primary" htmlType="submit" style={{ marginRight: '16px' }}>

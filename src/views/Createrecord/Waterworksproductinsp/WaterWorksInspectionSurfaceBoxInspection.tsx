@@ -1,16 +1,10 @@
 ﻿import { PlusOutlined } from '@ant-design/icons';
-import {Button,Form,Input,Radio,Select,Upload,Modal,message,} from 'antd';
+import { Button, Form, Input, Radio, Select, Upload, Modal, message, } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import Componentnuminput from '../../../components/Componentnuminput';
 
 const { TextArea } = Input;
-const units = [
-    { value: '-', label: '-' },
-    { value: 'mm', label: 'mm' },
-    { value: 'cm', label: 'cm' },
-    { value: 'µm', label: 'µm' },
-    { value: 'kg', label: 'kg' },
-]
 
 const normFile = (e: any) => {
     if (Array.isArray(e)) {
@@ -34,7 +28,7 @@ const View = () => {
         setModalText('Are you sure to save this test result?');
         showModal();
     }
-    
+
 
     const handleOk = () => {
         if (modalText === 'Are you sure to submit this test result?') {
@@ -67,7 +61,7 @@ const View = () => {
 
 
     const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+        console.log(`selected ${value}`);
     };
 
     const onFinish = (values: any) => {
@@ -77,14 +71,14 @@ const View = () => {
     };
 
     const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+        console.log('Failed:', errorInfo);
     };
 
     return (
 
         <div>
             <div className="home" style={{ fontSize: 30, textAlign: 'left', padding: 10, lineHeight: '48px', color: 'grey' }}>
-                <p>Water Works Inspection - Manhole Cover Inspection template</p>
+                <p>Water Works Inspection - Surface Box Inspection template</p>
             </div>
             {contextHolder}
             <Form
@@ -103,219 +97,46 @@ const View = () => {
                         <Radio value="defect"> Defect </Radio>
                     </Radio.Group>
                 </Form.Item>
+                <Componentnuminput label={"*Frame External Length"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Frame External Width"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Frame Internal Length"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Frame Internal Width"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Frame Height"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Cover Length"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Cover Width"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Cover Height"} rules={[{ required: true }]} />
+                <Componentnuminput label={"*Protective Coating Thickness"} rules={[{ required: true }]} />
 
-                <Form.Item
-                    label="*Frame External Length"
-                    >
-                    
-                    <Form.Item
-                        name="*Frame External Length Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input  />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Frame External Length unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}
-                        />
-                    </Form.Item>
-                </Form.Item>
-
-                <Form.Item label="*Frame External Width">
-                    <Form.Item
-                        name="*Frame External Width Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Frame External Width Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                            
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Frame Internal Length">
-                    <Form.Item
-                        name="*Frame Internal Length Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Frame Internal Length Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                         
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Frame Internal Width">
-                    <Form.Item
-                        name="*Frame Internal Width Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Frame Internal Width Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                           
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Frame Height">
-                    <Form.Item
-                        name="*Frame Height Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Frame Height Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                            
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Cover Length">
-                    <Form.Item
-                        name="*Cover Length Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Cover Length Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                         
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Cover Width">
-                    <Form.Item
-                        name="*Cover Width Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Cover Width Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                          
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Cover Height">
-                    <Form.Item
-                        name="*Cover Height Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Cover Height Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                           
-                        />
-                    </Form.Item>
-                </Form.Item>
-                <Form.Item label="*Protective Coating Thickness">
-                    <Form.Item
-                        name="*Protective Coating Thickness Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Protective Coating Thickness Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}                            
-                        />
-                    </Form.Item>
-                </Form.Item>
                 <Form.Item label="*Loading Test">
                     <Radio.Group defaultValue="pass">
                         <Radio value="pass"> Pass </Radio>
                         <Radio value="fail"> Fail </Radio>
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item label="*Weighing Test">
-                    <Form.Item
-                        name="*Weighing Test Value"
-                        style={{ display: 'inline-block' }}
-                        rules={[{ required: true, message: 'Please input the value' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="*Weighing Test Unit"
-                        style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-                        initialValue="-"
-                    >
-                        <Select
-                            onChange={handleChange}
-                            options={units}
-                        />
-                    </Form.Item>
-                </Form.Item>
+
+                <Componentnuminput label={"*Weighing Test"} rules={[{ required: true }]} />
+
                 <Form.Item label="Other Tests">
                     <TextArea rows={4} />
                 </Form.Item>
 
                 <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile}>
                     <Upload action="/upload.do" listType="picture-card">
-                    <div>
-                        <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
+                        <div>
+                            <PlusOutlined />
+                            <div style={{ marginTop: 8 }}>Upload</div>
+                        </div>
                     </Upload>
-                 </Form.Item>
+                </Form.Item>
+
+                <Form.Item label="Project Number">
+                    <Form.Item
+                        name="Project Number"
+                        style={{ display: 'inline-block' }}
+                    >
+                        <Input />
+                    </Form.Item>
+                </Form.Item>
 
                 <Form.Item className="templatebuttons">
                     <Button type="primary" htmlType="submit" style={{ marginRight: '16px' }}>
@@ -334,7 +155,8 @@ const View = () => {
                         Save
                     </Button>
                 </Form.Item>
-                
+
+
             </Form>
         </div>
     )
