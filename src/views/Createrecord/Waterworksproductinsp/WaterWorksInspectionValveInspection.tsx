@@ -88,41 +88,46 @@ const View = () => {
                 style={{ maxWidth: 1200 }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
+                onTouchStart={e => e.stopPropagation()}
             >
-                <Componentnuminput label={"*Outside dia. of flange"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Dia. of bolt circle"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Flange thickness"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Flange facing"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*No. ~bolt hole dia"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Face-to-face dimension"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Max. overall height"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Coating thickness"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Shell bar"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Shell sec"} rules={[{ required: true }]} />
+                <Componentnuminput label={" Outside dia. of flange"} rules={[{ required: true }]} />
+                <Componentnuminput label={" Dia. of bolt circle"} rules={[{ required: true }]} />
+                <Componentnuminput label={" Flange thickness"} rules={[{ required: true }]} />
+                <Componentnuminput label={" Flange facing"} rules={[{ required: true }]} />
+                <Componentnuminput label={" No. ~bolt hole dia"} rules={[{ required: true }]} />
+                <Componentnuminput label={" Face-to-face dimension"} rules={[{ required: true }]} />
+                <Componentnuminput label={" Max. overall height"} rules={[{ required: true }]} />
+                <Componentnuminput label={" Coating thickness"} rules={[{ required: true }]} />
+                <Componentnuminput label={" Shell bar"} rules={[{ required: true }]} />
+                <Componentnuminput label={" Shell sec"} rules={[{ required: true }]} />
 
-                <Form.Item label="*Shell pass/fail">
-                    <Radio.Group defaultValue="pass">
+                <Form.Item label=" Shell pass/fail"
+                    name=" Shell pass/fail"
+                    rules={[{ required: true, message: 'Please choose the value' }]}>
+                    <Radio.Group>
                         <Radio value="pass"> Pass </Radio>
                         <Radio value="fail"> Fail </Radio>
                     </Radio.Group>
                 </Form.Item>
 
-                <Componentnuminput label={"*Seat MOT"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Seat bar"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Seat sec"} rules={[{ required: true }]} />
+                <Componentnuminput label={" Seat MOT"} rules={[{ required: true }]} />
+                <Componentnuminput label={" Seat bar"} rules={[{ required: true }]} />
+                <Componentnuminput label={" Seat sec"} rules={[{ required: true }]} />
 
-                <Form.Item label="*Seat pass/fail">
-                    <Radio.Group defaultValue="pass">
+                <Form.Item label=" Seat pass/fail"
+                    name=" Seat pass/fail"
+                    rules={[{ required: true, message: 'Please choose the value' }]}>
+                    <Radio.Group>
                         <Radio value="pass"> Pass </Radio>
                         <Radio value="fail"> Fail </Radio>
                     </Radio.Group>
                 </Form.Item>
 
-                <Form.Item label="Other Tests">
+                <Form.Item label="Other Tests" name="Other Tests">
                     <TextArea rows={4} />
                 </Form.Item>
 
-                <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile}>
+                <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile} name="Upload">
                     <Upload action="/upload.do" listType="picture-card">
                         <div>
                             <PlusOutlined />

@@ -1,6 +1,7 @@
 ﻿import { useDispatch, useSelector } from "react-redux"
 import numStatus from "@/store/NumStatus"
 import Homebuttons from "@/components/Homebuttons"
+import jwtDecode from "jwt-decode"
 
 
 
@@ -25,10 +26,16 @@ const View = () => {
 
     //对sarr的操作+
 
+    const token = localStorage.getItem('formsubmission-token');
+    let decodedToken: { userName: string } | null = null;
+    if (token) {
+        decodedToken = jwtDecode(token);
+    }
+
     return (
         <div>   
             <div className="home" style={{ fontSize: 30, padding:20,lineHeight: '48px', color: 'grey' }}>
-                <p>Welcome,Chan Tai Man</p>
+                <p>Welcome, {decodedToken?decodedToken.userName:"Sir/Madam"}</p>
             </div>
             <div className="homebuttons" >
                 <Homebuttons  />

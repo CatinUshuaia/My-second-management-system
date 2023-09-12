@@ -115,8 +115,6 @@ const View = () => {
         </Button>,]
     }     
 
-    console.log(decodedToken);
-
         return (
             <>
                 <div style={{ fontSize: 30, paddingLeft: 10, lineHeight: '48px', color: 'grey' }}>

@@ -1,34 +1,34 @@
 ﻿export const units = [
     {
-        value: '1',
+        value: '-',
         label: '-',
     },
     {
-        value: '2',
+        value: 'mm',
         label: 'mm',
     },
     {
-        value: '3',
+        value: 'cm',
         label: 'cm',
     },
     {
-        value: '4',
+        value: 'µm',
         label: 'µm',
     },
     {
-        value: '5',
+        value: 'kg',
         label: 'kg',
     },
     {
-        value: '6',
+        value: 'Bar',
         label: 'Bar',
     },
     {
-        value: '7',
+        value: 'secs',
         label: 'secs',
     },
     {
-        value: '8',
+        value: 'min',
         label: 'min',
     },
     

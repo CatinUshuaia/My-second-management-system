@@ -88,39 +88,46 @@ const View = () => {
                 style={{ maxWidth: 1200 }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
+                onTouchStart={e => e.stopPropagation()}
             >
                 <Form.Item
-                    label="*Visual Appearance Check"
+                    label="Visual Appearance Check"
+                    name="Visual Appearance Check"
+                    rules={[{ required: true, message: 'Please choose the value' }]}
                 >
-                    <Radio.Group defaultValue="satisfied">
+                    <Radio.Group>
                         <Radio value="satisfied"> Satisfied </Radio>
                         <Radio value="defect"> Defect </Radio>
                     </Radio.Group>
                 </Form.Item>
-                <Componentnuminput label={"*Frame External Length"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Frame External Width"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Frame Internal Length"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Frame Internal Width"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Frame Height"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Cover Length"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Cover Width"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Cover Height"} rules={[{ required: true }]} />
-                <Componentnuminput label={"*Protective Coating Thickness"} rules={[{ required: true }]} />
+                <Componentnuminput label={"Frame External Length"} rules={[{ required: true }]} />
+                <Componentnuminput label={"Frame External Width"} rules={[{ required: true }]} />
+                <Componentnuminput label={"Frame Internal Length"} rules={[{ required: true }]} />
+                <Componentnuminput label={"Frame Internal Width"} rules={[{ required: true }]} />
+                <Componentnuminput label={"Frame Height"} rules={[{ required: true }]} />
+                <Componentnuminput label={"Cover Length"} rules={[{ required: true }]} />
+                <Componentnuminput label={"Cover Width"} rules={[{ required: true }]} />
+                <Componentnuminput label={"Cover Height"} rules={[{ required: true }]} />
+                <Componentnuminput label={"Protective Coating Thickness"} rules={[{ required: true }]} />
 
-                <Form.Item label="*Loading Test">
-                    <Radio.Group defaultValue="pass">
+                <Form.Item
+                    label="Loading Test"
+                    name="Loading Test"
+                    rules={[{ required: true, message: 'Please choose the value' }]}
+                >
+                    <Radio.Group>
                         <Radio value="pass"> Pass </Radio>
                         <Radio value="fail"> Fail </Radio>
                     </Radio.Group>
                 </Form.Item>
 
-                <Componentnuminput label={"*Weighing Test"} rules={[{ required: true }]} />
+                <Componentnuminput label={"Weighing Test"} rules={[{ required: true }]} />
 
-                <Form.Item label="Other Tests">
+                <Form.Item label="Other Tests" name="Other Tests">
                     <TextArea rows={4} />
                 </Form.Item>
 
-                <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile}>
+                <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile} name="Upload">
                     <Upload action="/upload.do" listType="picture-card">
                         <div>
                             <PlusOutlined />

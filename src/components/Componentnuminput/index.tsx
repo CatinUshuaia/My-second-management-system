@@ -15,11 +15,11 @@ const Componentnuminput: React.FC<ComponentnuminputProps> = ({ label, rules = []
     const mergedUnitRules = rules.map(rule => ({ ...rule, message: 'Please input the unit' }));
      
     return(
-    <Form.Item label={label}>
+        <Form.Item label={`${label}`} required>
         <Form.Item
             style={{ display: 'inline-block' }}
             rules={mergedValueRules}
-            name={label+' Value' }
+            name={`${label} Value`}
         >
             <Input />
         </Form.Item>
@@ -27,7 +27,7 @@ const Componentnuminput: React.FC<ComponentnuminputProps> = ({ label, rules = []
     <Form.Item
             style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
             rules={mergedUnitRules}
-            name={label+' Unit' }
+                name={`${label} Unit`}
     >
 
         <Select
@@ -38,6 +38,8 @@ const Componentnuminput: React.FC<ComponentnuminputProps> = ({ label, rules = []
                 (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
             }
             options={units}
+            virtual
+            listHeight={280}
             />
 
         </Form.Item>
