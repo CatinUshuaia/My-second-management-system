@@ -24,14 +24,26 @@ const View = () => {
     const [modalText, setModalText] = useState('');
     const [messageApi, contextHolder] = message.useMessage();
     const [form] = Form.useForm();
-    const formname ="Water Works Inspection - Ductile Iron Fitting Inspection template"
+    const formname = "WaterWorksInspectionDuctileIronFittingInspection"
+    const token = localStorage.getItem('formsubmission-token');
+    let decodedToken: { department: string, userName: string } | null = null;
+    if (token) {
+        decodedToken = jwtDecode(token);
+    }
 
     useEffect(() => {
+        const requestData = {
+            formName: formname,
+            userName: decodedToken?.userName
+        };
         // 在组件挂载时获取数据
-        fetchFormDataFromDB()
-            .then((formData) => {
-                // 使用获取的数据设置表单字段的值
-                form.setFieldsValue(formData);
+        fetchFormDataFromDB(requestData)
+            .then((FetchFormDataRes) => {
+                console.log(FetchFormDataRes.message)
+                if (FetchFormDataRes.success) {
+                    // 使用获取的数据设置表单字段的值
+                    form.setFieldsValue(FetchFormDataRes.otherData);
+                }
             })
             .catch((error) => {
                 // 处理获取数据时的错误
@@ -48,28 +60,22 @@ const View = () => {
         showModal();
     }
 
-    const token = localStorage.getItem('formsubmission-token');
-    let decodedToken: { department: string, userName: string} | null = null;
-    if (token) {
-        decodedToken = jwtDecode(token);
-    }
-
     const handleOk = async () => {
-        const values = await form.validateFields();
         
-
         let frontEndData = {
             formName: formname,
-            userName: decodedToken?decodedToken.department:'',
-            department: decodedToken?decodedToken.userName:'',
+            userName: decodedToken?decodedToken.userName:'',
+            department: decodedToken?decodedToken.department:'',
             OtherData: {}
         };
 
-        for (let key in values) {
-           frontEndData.OtherData[key] = values[key];
-        }
-
         if (modalText === 'Are you sure to submit this test result?') {
+            const values = await form.validateFields();
+
+            for (let key in values) {
+                frontEndData.OtherData[key] = values[key];
+            }
+
             setModalText('Submitting the test result now,please wait...');
             setConfirmLoading(true);
 
@@ -95,6 +101,13 @@ const View = () => {
         }
 
         else {
+
+            const values = await form.getFieldsValue();
+
+            for (let key in values) {
+                frontEndData.OtherData[key] = values[key];
+            }
+
             setModalText('Saving the test result now,please wait...');
             setConfirmLoading(true);
 
