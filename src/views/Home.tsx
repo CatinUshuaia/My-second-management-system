@@ -32,9 +32,8 @@ const View: React.FC = () => {
             <Layout>
                 {/*右侧头部*/}
                 <Header style={{ paddingLeft: '16px', background: colorBgContainer}} >
-                    <div>
-                        {/*水平居中写法待修改*/}
-                        <img src="/src/img/logo.jpg" style={{marginLeft:706 , height:60}} alt="img" />
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <img src="/src/img/logo.jpg" style={{ height: 60, marginLeft: '40px' }} alt="img" />
                     </div>
                 </Header>
                 {/*右侧大空白*/}

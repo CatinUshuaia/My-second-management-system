@@ -11,7 +11,7 @@ const View = () => {
 
     //修改仓库数据
     const changeNum = () => {
-        dispatch(numStatus.asyncActions.asyncAdd1)
+        dispatch(numStatus.asyncActions.asyncAdd1 as any)
 
     }
 

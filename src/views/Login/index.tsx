@@ -9,8 +9,6 @@ import logo from "@/img/logo.jpg";
 const view = () => {
 
     let navigateTo = useNavigate();
-    //加载完这个组件之后,加载背景
-
 
     //获取用户输入的信息
     const [usernameVal, setUsernameVal] = useState("");

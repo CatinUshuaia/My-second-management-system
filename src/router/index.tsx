@@ -43,10 +43,10 @@ const Calibration = lazy(() => import("../views/Createrecord/Calibration"))
 const Fire = lazy(() => import("../views/Createrecord/Fire"))
 const Deepcementmaterialtestinglab = lazy(() => import("../views/Createrecord/Deepcementmaterialtestinglab"))
 const Waterworksproductinsp = lazy(() => import("../views/Createrecord/Waterworksproductinsp"))
-const WaterWorksInspectionManholeCoverInspection = lazy(() => import("../views/Createrecord/Waterworksproductinsp/WaterWorksInspectionManholeCoverInspection"))
-const WaterWorksInspectionDuctileIronFittingInspection = lazy(() => import("../views/Createrecord/Waterworksproductinsp/WaterWorksInspectionDuctileIronFittingInspection"))
-const WaterWorksInspectionSurfaceBoxInspection = lazy(() => import("../views/Createrecord/Waterworksproductinsp/WaterWorksInspectionSurfaceBoxInspection"))
-const WaterWorksInspectionValveInspection = lazy(() => import("../views/Createrecord/Waterworksproductinsp/WaterWorksInspectionValveInspection"))
+const WaterworksInspectionManholeCoverInspection = lazy(() => import("../views/Createrecord/Waterworksproductinsp/WaterworksInspectionManholeCoverInspection"))
+const WaterworksInspectionDuctileIronFittingInspection = lazy(() => import("../views/Createrecord/Waterworksproductinsp/WaterworksInspectionDuctileIronFittingInspection"))
+const WaterworksInspectionSurfaceBoxInspection = lazy(() => import("../views/Createrecord/Waterworksproductinsp/WaterworksInspectionSurfaceBoxInspection"))
+const WaterworksInspectionValveInspection = lazy(() => import("../views/Createrecord/Waterworksproductinsp/WaterworksInspectionValveInspection"))
     
 
 
@@ -188,17 +188,17 @@ const routes = [
                 path: "/Createrecord/Waterworksproductinsp",
                 element: withLoadingComponent(<Waterworksproductinsp />)
             }, {
-                path: "/Createrecord/Waterworksproductinsp/WaterWorksInspectionManholeCoverInspection",
-                element: withLoadingComponent(<WaterWorksInspectionManholeCoverInspection />)
+                path: "/Createrecord/Waterworksproductinsp/WaterworksInspectionManholeCoverInspection",
+                element: withLoadingComponent(<WaterworksInspectionManholeCoverInspection />)
             },{
-                path: "/Createrecord/Waterworksproductinsp/WaterWorksInspectionDuctileIronFittingInspection",
-                element: withLoadingComponent(<WaterWorksInspectionDuctileIronFittingInspection />)
+                path: "/Createrecord/Waterworksproductinsp/WaterworksInspectionDuctileIronFittingInspection",
+                element: withLoadingComponent(<WaterworksInspectionDuctileIronFittingInspection />)
             },{
-                path: "/Createrecord/Waterworksproductinsp/WaterWorksInspectionSurfaceBoxInspection",
-                element: withLoadingComponent(<WaterWorksInspectionSurfaceBoxInspection />)
+                path: "/Createrecord/Waterworksproductinsp/WaterworksInspectionSurfaceBoxInspection",
+                element: withLoadingComponent(<WaterworksInspectionSurfaceBoxInspection />)
             },{
-                path: "/Createrecord/Waterworksproductinsp/WaterWorksInspectionValveInspection",
-                element: withLoadingComponent(<WaterWorksInspectionValveInspection />)
+                path: "/Createrecord/Waterworksproductinsp/WaterworksInspectionValveInspection",
+                element: withLoadingComponent(<WaterworksInspectionValveInspection />)
             },
         ]
     },

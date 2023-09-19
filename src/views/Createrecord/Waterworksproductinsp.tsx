@@ -12,16 +12,16 @@ const View = () => {
     }
 
     const allButtons: React.ReactNode[] = [
-        <Button type="primary" block key='WaterWorksInspectionDuctileIronFittingInspection' onClick={() => handleClick('WaterWorksInspectionDuctileIronFittingInspection')} >
+        <Button type="primary" block key='WaterworksInspectionDuctileIronFittingInspection' onClick={() => handleClick('WaterworksInspectionDuctileIronFittingInspection')} >
             Water Works Inspection - Ductile Iron Fitting Inspection
         </Button>, 
-        <Button type="primary" block key='WaterWorksInspectionManholeCoverInspection' onClick={() => handleClick('WaterWorksInspectionManholeCoverInspection')} >
+        <Button type="primary" block key='WaterworksInspectionManholeCoverInspection' onClick={() => handleClick('WaterworksInspectionManholeCoverInspection')} >
             Water Works Inspection - Manhole Cover Inspection
         </Button>,
-        <Button type="primary" block key='WaterWorksInspectionSurfaceBoxInspection' onClick={() => handleClick('WaterWorksInspectionSurfaceBoxInspection')} >
+        <Button type="primary" block key='WaterworksInspectionSurfaceBoxInspection' onClick={() => handleClick('WaterworksInspectionSurfaceBoxInspection')} >
             Water Works Inspection - Surface Box Inspection
         </Button>, 
-        <Button type="primary" block key='WaterWorksInspectionValveInspection' onClick={() => handleClick('WaterWorksInspectionValveInspection')} >
+        <Button type="primary" block key='WaterworksInspectionValveInspection' onClick={() => handleClick('WaterworksInspectionValveInspection')} >
             Water Works Inspection - Valve Inspection
         </Button>, 
     ];

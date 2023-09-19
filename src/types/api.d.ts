@@ -23,10 +23,6 @@ interface LoginAPIRes {
 }
 
 interface FormAPIReq {
-    formName: string;
-    userName: string;
-    department: string;
-    OtherData: Dictionary<string, string>;
 }
 
 
@@ -49,10 +45,18 @@ interface FetchFormDataRes {
 }
 
 interface FormSearchAPIReq {
-
 }
 
 interface FormSearchAPIRes {
     records: SetStateAction<Record[]>;
+}
 
+interface FormDeleteAPIReq {
+    formName: string;
+    userName: string;
+    createTime: string;
+    department: string;
+}
+
+interface FormDeleteAPIRes {
 }

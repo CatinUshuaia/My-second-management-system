@@ -25,7 +25,7 @@ function ToLogin() {
 
 
 function BeforeRouterEnter() {
-    const outlet = useRoutes(router)
+    const outlet = useRoutes(router as any)
 
     /*后台管理系统两种经典的跳转情况
     1.如果访问的是登录界面，且有token，跳转到首页

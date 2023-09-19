@@ -24,6 +24,6 @@
     { key: 'SoilandaggregatephaseI', title: 'Soil and Aggregate Phase I' },
     { key: 'SoilPh2', title: 'Soil Phase 2' },
     { key: 'Steel', title: 'Steel' },
-    { key: 'Waterworksproductinsp', title: 'Water Works Product Inspection' },
+    { key: 'Waterworksproductinsp', title: 'Waterworks Product Inspection' },
     { key: 'Zhongshan2013', title: 'Zhongshan 2013' }
 ];

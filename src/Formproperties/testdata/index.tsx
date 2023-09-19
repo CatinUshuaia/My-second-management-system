@@ -24,6 +24,6 @@
     SoilandaggregatephaseI: [],
     SoilPh2: [],
     Steel: [],
-    Waterworksproductinsp: ['WaterWorksInspectionDuctileIronFittingInspection' as any],
+    Waterworksproductinsp: ['WaterworksInspectionDuctileIronFittingInspection' as string, 'WaterworksInspectionManholeCoverInspection' as string, 'WaterworksInspectionSurfaceBoxInspection' as string,'WaterworksInspectionValveInspection' as string],
     Zhongshan2013: []
 };
