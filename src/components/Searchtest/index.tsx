@@ -3,7 +3,6 @@ import { Input, Button, Table, Space, DatePickerProps, Select, DatePicker,Form, 
 import { testData } from '../../Formproperties/testdata';
 import { labData } from '../../Formproperties/labdata';
 import { formDeleteAPI, formSearchAPI } from '../../request/api';
-import { FormDeleteAPIReq, FormDeleteAPIRes, FormSearchAPIReq } from '../../types/api';
 import { useNavigate } from "react-router-dom";
 import { format } from 'path';
 

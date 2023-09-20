@@ -1,5 +1,4 @@
 ﻿// 统一管理项目中所有的请求路径 api
-import { FetchFormDataReq, FetchFormDataRes, FormAPIReq, FormAPIRes, FormDeleteAPIReq, FormDeleteAPIRes, FormSearchAPIReq, FormSearchAPIRes, LoginAPIReq, LoginAPIRes } from "../types/api";
 import { loginInstance, formInstance } from "./index"
 
 
@@ -27,3 +26,9 @@ export const formSearchAPI = (params: FormSearchAPIReq)
 
 export const formDeleteAPI = (params: FormDeleteAPIReq)
     : Promise<FormDeleteAPIRes> => formInstance.post("/Test/DeleteRecord", params);
+
+export const UserSettingsAPI = (params: UserSettingsReq)
+    : Promise<UserSettingsRes> => formInstance.post("/api/User/UserSettings", params);
+
+export const UserSettingsFetch = (params: UserSettingsFetchReq)
+    : Promise<UserSettingsFetchRes> => formInstance.post("/api/User/UserSettingsFetch", params);

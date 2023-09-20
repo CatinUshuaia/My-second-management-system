@@ -12,6 +12,9 @@ const formInstance  = axios.create({
     timeout: 20000
 });
 
+const uploadFormImgURL = "http://localhost:5223/Test/UploadImg";
+const uploadUserImgURL = "http://localhost:5223/api/User/UploadUserImg";
+
 // 请求拦截器
 loginInstance.interceptors.request.use(config => {
     return config;
@@ -38,4 +41,4 @@ formInstance .interceptors.response.use(res => {
     return Promise.reject(err);
 });
 
-export { loginInstance, formInstance  };
+export { loginInstance, formInstance, uploadFormImgURL, uploadUserImgURL };

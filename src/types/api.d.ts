@@ -1,8 +1,4 @@
-﻿// 这个文件专门定义请求参数的类型，和响应的类型
-
-import { message } from "antd";
-
-
+﻿
 // 登录请求参数类型约束
 interface LoginAPIReq {
     name: string;
@@ -42,6 +38,7 @@ interface FetchFormDataRes {
     message: string;
     success: boolean;
     otherData: Dictionary<string, object>;
+    imageUrls: List<string>;
 }
 
 interface FormSearchAPIReq {
@@ -59,4 +56,23 @@ interface FormDeleteAPIReq {
 }
 
 interface FormDeleteAPIRes {
+}
+
+
+interface FormImgRes {
+    message: string;
+    status: string;
+    url: string;
+}
+
+interface UserSettingsRes {
+}
+
+interface UserSettingsReq {
+}
+
+interface UserSettingsFetchRes {
+}
+
+interface UserSettingsFetchReq {
 }
