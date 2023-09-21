@@ -1,6 +1,7 @@
 ﻿import Searchbuttons from "@/components/Searchbuttons"
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
+import jwtDecode from 'jwt-decode';
 
 
 const View = () => {
@@ -10,8 +11,15 @@ const View = () => {
     const handleClick = (key: String) => {
         navigateTo("/Createrecord/" + key);
     }
+    const token = localStorage.getItem('formsubmission-token');
 
-        const allButtons: React.ReactNode[] = [
+    // 解码 JWT 令牌
+    let decodedToken: { department: string, userType: string } | null = null;
+    if (token) {
+        decodedToken = jwtDecode(token);
+    }
+        
+        let allButtons: React.ReactNode[] = [
         <Button type="primary" block key='Bitumen' onClick={() => handleClick('Bitumen')} >
             Bitumen
         </Button>,
@@ -94,18 +102,32 @@ const View = () => {
             Zhong Shan 2013
         </Button>
     ];
+    if (decodedToken && decodedToken.userType !== '1') {
 
-   
-    return (
-        <>
-            <div style={{ fontSize: 30, paddingLeft: 10, lineHeight: '48px', color: 'grey' }}>
-                Create Record
-            </div>
-            <div className="formsearch">
-                <Searchbuttons allButtons={allButtons} />
-            </div>
-        </>
-    )
-}
+        if (decodedToken && decodedToken.department === "Waterworksproductinsp") {
+            allButtons = [<Button type="primary" block key='Waterworksproductinsp' onClick={() => handleClick('Waterworksproductinsp')} >
+                Water Works ProductInsp.
+            </Button>,]
+        }
+
+        if (decodedToken && decodedToken.department === "Zhongshan2013") {
+            allButtons = [<Button type="primary" block key='Zhongshan2013' onClick={() => handleClick('Zhongshan2013')} >
+                Zhong Shan 2013
+            </Button>,]
+        }
+    }
+
+        return (
+            <>
+                <div style={{ fontSize: 30, paddingLeft: 20, lineHeight: '48px', color: 'grey' }}>
+                    Create Record
+                </div>
+                <div className="formsearch">
+                    <Searchbuttons allButtons={allButtons} />
+                </div>
+            </>
+        )
+};
+
 
 export default View

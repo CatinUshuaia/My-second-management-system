@@ -36,8 +36,8 @@ const items: MenuItem[] = [
             },
 
             {
-                label: 'Remarks',
-                key: '/remarks',
+                label: 'Calendar',
+                key: '/Calendar',
             }
         ]
     },
@@ -48,15 +48,15 @@ const items: MenuItem[] = [
         icon: <TeamOutlined />,
         children: [
             {
-                label: 'IOT',
-                key: '/iot',
+                label: 'Members',
+                key: '/Members',
             },
 
             {
-                label: 'MIT',
-                key: '/mit',
+                label: 'Forms',
+                key: '/FormsinTeam',
             },
-        ]
+        ] 
     },
 
      {

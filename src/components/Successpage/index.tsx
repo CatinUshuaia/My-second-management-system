@@ -14,11 +14,11 @@ const Successpage: React.FC = () => {
         <Result
             status="success"
             title="Successfully Submitted the Form!"
-            subTitle="Test result number: 2017182818828182881."
+            subTitle="Please wait for approval"
             extra={[
-                <Button type="primary" onClick={handleClick}>
+                <Button type="primary" onClick={handleClick} key="ok">
                     OK
-                </Button>,
+                </Button>
             ]}
             />
     );

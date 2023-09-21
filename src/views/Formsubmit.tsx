@@ -11,7 +11,7 @@ const View = () => {
 
     //修改仓库数据
     const changeNum = () => {
-        dispatch(numStatus.asyncActions.asyncAdd1)
+        dispatch(numStatus.asyncActions.asyncAdd1 as any)
 
     }
 
@@ -24,7 +24,7 @@ const View = () => {
 
     return (
         <div>
-            <div className="home" style={{ fontSize: 30, textAlign: 'left', padding: 10, lineHeight: '48px', color: 'grey' }}>
+            <div className="home" style={{ fontSize: 30, textAlign: 'left', padding: 20, lineHeight: '48px', color: 'grey' }}>
                 <p>Form Submission</p>
             </div>
             <div>

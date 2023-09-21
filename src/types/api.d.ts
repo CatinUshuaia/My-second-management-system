@@ -1,23 +1,80 @@
-﻿// 这个文件专门定义请求参数的类型，和响应的类型
-
-// 验证码的响应类型约束
-interface CaptchaAPIRes {
-    msg: string;
-    img: string;
-    code: number;
-    captchaEnabled: boolean;
-    uuid: string;
-}
+﻿
 // 登录请求参数类型约束
 interface LoginAPIReq {
-    username: string;
+    name: string;
     password: string;
-    code: string;
-    uuid: string;
 }
+
+
 // 登录的响应类型约束
 interface LoginAPIRes {
-    msg: string;
-    code: number;
-    token: string;
+    refreshToken: string;
+    data: {
+    accesstoken: string;
+    refreshToken:string;
+  };
+    message: string;
+    success: boolean;
+    Ovalue: object | null;
+}
+
+interface FormAPIReq {
+}
+
+
+interface FormAPIRes {
+    success: boolean;
+    message: string;
+}
+
+
+interface FetchFormDataReq {
+    formName?: string;
+    userName?: string;
+}
+
+
+interface FetchFormDataRes {
+    message: string;
+    success: boolean;
+    otherData: Dictionary<string, object>;
+    imageUrls: List<string>;
+}
+
+interface FormSearchAPIReq {
+}
+
+interface FormSearchAPIRes {
+    records: SetStateAction<Record[]>;
+}
+
+interface FormDeleteAPIReq {
+    formName: string;
+    userName: string;
+    createTime: string;
+    department: string;
+}
+
+interface FormDeleteAPIRes {
+}
+
+
+interface FormImgRes {
+    message: string;
+    status: string;
+    url: string;
+}
+
+interface UserSettingsRes {
+}
+
+interface UserSettingsReq {
+}
+
+interface UserSettingsFetchRes {
+    otherData: any;
+    success: any;
+}
+
+interface UserSettingsFetchReq {
 }

@@ -1,15 +1,15 @@
-﻿import handler from "./index"
+﻿import handleArr from "./index"
 
-let reducer = (state = { ...handler.state }, action: {
+let reducer = (state = { ...handleArr.state }, action: {
     val: number; type: string
 }) => {
 
     let newState = JSON.parse(JSON.stringify(state));
 
 
-    for (let key in handler.actionNames) {
-        if (action.type === handler.actionNames[key]) {
-            handler.actions[handler.actionNames[key]](newState, action);
+    for (let key in handleArr.actionNames) {
+        if (action.type === handleArr.actionNames[key]) {
+            handleArr.actions[handleArr.actionNames[key]](newState, action);
             break;
         }
     }

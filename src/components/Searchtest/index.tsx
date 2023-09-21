@@ -1,149 +1,198 @@
 import { useState } from 'react';
-import { Input, Button, Table, Space, DatePickerProps, Select, DatePicker } from 'antd';
+import { Input, Button, Table, Space, DatePickerProps, Select, DatePicker,Form, message } from 'antd';
+import { testData } from '../../Formproperties/testdata';
+import { labData } from '../../Formproperties/labdata';
+import { formDeleteAPI, formSearchAPI } from '../../request/api';
+import { useNavigate } from "react-router-dom";
+import { format } from 'path';
 
-interface User {
-  id: number;
-  formname: string;
-  provider: number;
+
+interface Record {
+  status: string;
+  formName: string;
+  userName: string;
+  createTime: string;
+  department: string;
 }
-
-const labData = [
-    'Bitumen',
-    'Buildingcomponent',
-    'Buildingcomponentrock',
-    'Buildingdiagnostic',
-    'Calibration',
-    'Cement',
-    'Chemical',
-    'Chinesemedicine',
-    'Concretecore',
-    'Concretecube',
-    'Deepcementmaterialtestinglab',
-    'Drainagepipe',
-    'Environmental',
-    'Fire',
-    'Food',
-    'Generaloffice',
-    'Geotechnicinvestigation',
-    'Microbiological',
-    'NDTwelding',
-    'Paint',
-    'Piling',
-    'Site',
-    'SoilandaggregatephaseI',
-    'SoilPh2',
-    'Steel',
-    'Waterworksproductinsp',
-    'Zhongshan2013'
-];
-
-const testData = {
-    Bitumen: [],
-    Buildingcomponent: [],
-    Buildingcomponentrock: [],
-    Buildingdiagnostic: [],
-    Calibration: [],
-    Cement: [],
-    Chemical: [],
-    Chinesemedicine: [],
-    Concretecore: [],
-    Concretecube: [],
-    Deepcementmaterialtestinglab: [],
-    Drainagepipe: [],
-    Environmental: [],
-    Fire: [],
-    Food: [],
-    Generaloffice: [],
-    Geotechnicinvestigation: [],
-    Microbiological: [],
-    NDTwelding: [],
-    Paint: [],
-    Piling: [],
-    Site: [],
-    SoilandaggregatephaseI: [],
-    SoilPh2: [],
-    Steel: [],
-    Waterworksproductinsp: ['INWW_MHCOV_INSPECT' as any],
-    Zhongshan2013: []
-};
 
 
 const Searchtest: React.FC = () => {
-  const [searchText, setSearchText] = useState('');
-  const [data, setData] = useState<User[]>([]);
+    const [data, setData] = useState<Record[]>([]);
+    const [form] = Form.useForm();
+    const navigateTo = useNavigate();
 
-  const handleSearch = () => {
-    let filteredData = [];
-    if (searchText) {
-      filteredData = data.filter((user) => user.formname.toLowerCase().includes(searchText.toLowerCase()));
-    } else {
-      filteredData = data;
-    }
-    setData(filteredData);
-  };
+    const columns = [
+        {
+            title: 'formName',
+            dataIndex: 'formName',
+            key: 'formName',
+            sorter: (a: Record, b: Record) => a.formName.localeCompare(b.formName),
+            render: (formName: string) => {
+                return formatted(formName);   
+            },
+        },
+        {
+            title: 'userName',
+            dataIndex: 'userName',
+            key: 'userName',
+            sorter: (a: Record, b: Record) => a.userName.localeCompare(b.userName),
+        },
+        {
+            title: 'createTime',
+            dataIndex: 'createTime',
+            key: 'createTime',
+            sorter: (a: Record, b: Record) => new Date(a.createTime).getTime() - new Date(b.createTime).getTime(),
+            render: (createTime: string) => {
+                const dateTime = new Date(createTime);
+                const formattedDateTime = dateTime.toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                });
+                return formattedDateTime;
+            },
+        },
+        {
+            title: 'department',
+            dataIndex: 'department',
+            key: 'department',
+            sorter: (a: Record, b: Record) => a.department.localeCompare(b.department),
+        },
+        {
+            title: 'status',
+            dataIndex: 'status',
+            key: 'status',
+            render: (status: string) => (status === '1' ? 'Submitted' : 'Editable'),
+            sorter: (a: Record, b: Record) => a.status.localeCompare(b.status),
+        },
+        {
+            title: 'action',
+            key: 'action',
+            render: (text: string, record: Record) => (
+                <Space>
+                    <Button style={{ width: '80px' }} onClick={() => { console.log(`/Createrecord/${record.department}/${record.formName}`); navigateTo(`/Createrecord/${record.department}/${record.formName}`) }} disabled={record.status === "1"}>Edit</Button>
 
-  const resetSearch = () => {
-      setSearchText('');
-      setData([]);
-      setLabs(testData[labData[0] as TestName]);
-      setTest(testData[labData[0] as TestName][0]);
-    };
+                    <Button style={{ width: '80px' }} onClick={()=>handleDelete(record)} disabled={record.status === "1"} >Delete</Button>
+                </Space>
+            ),
+        }
+    ];
 
     type TestName = keyof typeof testData;
 
-  const columns = [
-    { title: 'ID', dataIndex: 'id', key: 'id' },
-      { title: 'Formname', dataIndex: 'formname', key: 'formname' },
-      { title: 'Provider', dataIndex: 'provider', key: 'provider' },
-    ];
+    const [labs, setLabs] = useState(testData[labData[0].key as TestName]);
+    const [test, setTest] = useState(testData[labData[0].key as TestName][0]);
 
-    //search³¡¤À
-    const [labs, setLabs] = useState(testData[labData[0] as TestName]);
-    const [test, setTest] = useState(testData[labData[0] as TestName][0]);
 
     const handleLabChange = (value: TestName) => {
         setLabs(testData[value]);
-        setTest(testData[value][0]);
+        form.setFieldsValue({ test: undefined }); 
+    };
+
+    const handleDelete = async (record: Record) => {
+        const deleteData: FormDeleteAPIReq = {
+            formName: record.formName,
+            userName: record.userName,
+            createTime: record.createTime,
+            department: record.department
+        };
+
+        console.log('Delete record:', deleteData);
+
+        try {
+            const response:FormDeleteAPIRes = await formDeleteAPI(deleteData);
+            console.log('Response:', response);
+            // Display success notification
+            message.success('Record deleted successfully.');
+            form.submit();
+        } catch (error) {
+            console.log('Error:', error);
+            message.error('Failed to delete the record.');
+        }
     };
 
     const ontestChange = (value: TestName) => {
         setTest(value);
     };
 
-
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
         console.log(date, dateString);
     };
 
+    const onFinish = async (values: any) => {
+        // Extract dateFrom and dateTo from values
+        const { dateFrom, dateTo, ...rest } = values;
 
-  return (
-      <>
-          <Space direction="vertical" size="large">
-              Lab:<Select
-                  style={{ width: 480 }}
-                  onChange={handleLabChange}
-                  options={labData.map((lab) => ({ label: lab, value: lab }))}
-              />
+        // Format dateFrom and dateTo as strings
+        const formattedValues: FormSearchAPIReq = {
+            ...rest,
+            dateFrom: dateFrom ? dateFrom.format('YYYY-MM-DD') : undefined,
+            dateTo: dateTo ? dateTo.format('YYYY-MM-DD') : undefined
+        };
 
+        console.log('Search values:', formattedValues);
 
-              Test:<Select
-                  style={{ width: 480 }}
-                  value={test}
-                  onChange={ontestChange}
-                  options={labs.map((test: any) => ({ label: test, value: test }))}
-              />
+        // Call the API
+        try {
+            const response = await formSearchAPI(formattedValues);
+            console.log('Response:', response);
+            setData(response.records);
 
+            if (response.records.length === 0) {
+                message.info('No records found.');
+            }
+        } catch (error) {
+            console.log('Error:', error);
+        }
+    };
 
-              Date From:<DatePicker style={{ width: 480 }} onChange={onChange} />
-              Date To:<DatePicker style={{ width: 480 }} onChange={onChange} />
+    const formatted = (words: string) => {
+        const regex = /([A-Z])/g;
+        return words.replace(regex, ' $1').trim();
+    };
 
-            <Button type="primary" block onClick={handleSearch} style={{ marginBottom: '16px'}}>
-              Search
-            </Button>
-          </Space>
-      <Table columns={columns} dataSource={data} />
-    </>
-  );
+    return (
+        <Form onFinish={onFinish} form={form}>
+            <Space direction="vertical" size="small">
+                Lab:
+                <Form.Item name="lab" rules={[{ required: true }]}>
+                    <Select
+                        key={"lab"}
+                        style={{ width: 480 }}
+                        onChange={handleLabChange}
+                        options={labData.map((lab: any) => ({ label: lab.title, value: lab.key }))}
+                    />
+                </Form.Item>
+
+                Test:
+                <Form.Item name="test">
+                    <Select
+                        style={{ width: 480 }}
+                        value={test as any}
+                        onChange={ontestChange}
+                        options={(labs).map((test: any) => ({ label: formatted(test), value: test }))}
+                    />
+                </Form.Item>
+
+                Date From:
+                <Form.Item name="dateFrom">
+                    <DatePicker style={{ width: 480 }} onChange={onChange} />
+                </Form.Item>
+                Date To:
+                <Form.Item name="dateTo">
+                    <DatePicker style={{ width: 480 }} onChange={onChange} />
+                </Form.Item>
+
+                <Button type="primary" htmlType="submit" block style={{ marginBottom: '16px' }}>
+                    Search
+                </Button>
+            </Space>
+            <Table columns={columns} dataSource={data.map((item, index) => ({ ...item, key: index }))} pagination={{ pageSize: 10 }} />
+        </Form>
+    );
 };
 
 export default Searchtest;

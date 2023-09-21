@@ -2,12 +2,14 @@
 import reduxThunk from "redux-thunk"
 import handleNum from "./NumStatus/reducer"
 import handleArr from "./ArrStatus/reducer"
+import handleImg from "./ImageStatus/reducer"
 
 
 //组合各个模块的reducer
 const reducers = combineReducers({
     handleNum,
-    handleArr
+    handleArr,
+    handleImg
 })
 
 

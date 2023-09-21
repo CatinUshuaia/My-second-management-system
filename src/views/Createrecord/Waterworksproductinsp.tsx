@@ -12,9 +12,18 @@ const View = () => {
     }
 
     const allButtons: React.ReactNode[] = [
-        <Button type="primary" block key='INWW_MANHOLE' onClick={() => handleClick('INWW_MANHOLE')} >
-            INWW_MANHOLE
-        </Button>,      
+        <Button type="primary" block key='WaterworksInspectionDuctileIronFittingInspection' onClick={() => handleClick('WaterworksInspectionDuctileIronFittingInspection')} >
+            Water Works Inspection - Ductile Iron Fitting Inspection
+        </Button>, 
+        <Button type="primary" block key='WaterworksInspectionManholeCoverInspection' onClick={() => handleClick('WaterworksInspectionManholeCoverInspection')} >
+            Water Works Inspection - Manhole Cover Inspection
+        </Button>,
+        <Button type="primary" block key='WaterworksInspectionSurfaceBoxInspection' onClick={() => handleClick('WaterworksInspectionSurfaceBoxInspection')} >
+            Water Works Inspection - Surface Box Inspection
+        </Button>, 
+        <Button type="primary" block key='WaterworksInspectionValveInspection' onClick={() => handleClick('WaterworksInspectionValveInspection')} >
+            Water Works Inspection - Valve Inspection
+        </Button>, 
     ];
 
 
