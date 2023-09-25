@@ -65,7 +65,18 @@ const Searchtest: React.FC = () => {
             title: 'status',
             dataIndex: 'status',
             key: 'status',
-            render: (status: string) => (status === '1' ? 'Submitted' : 'Editable'),
+            render: (status: string) => {
+                switch (status) {
+                    case '1':
+                        return 'Submitted';
+                    case '2':
+                        return 'Approved';
+                    case '3':
+                        return 'Disapproved';
+                    default:
+                        return 'Editable';
+                }
+            },
             sorter: (a: Record, b: Record) => a.status.localeCompare(b.status),
         },
         {
@@ -73,9 +84,9 @@ const Searchtest: React.FC = () => {
             key: 'action',
             render: (text: string, record: Record) => (
                 <Space>
-                    <Button style={{ width: '80px' }} onClick={() => { console.log(`/Createrecord/${record.department}/${record.formName}`); navigateTo(`/Createrecord/${record.department}/${record.formName}`) }} disabled={record.status === "1"}>Edit</Button>
+                    <Button style={{ width: '80px' }} onClick={() => { console.log(`/Createrecord/${record.department}/${record.formName}`); navigateTo(`/Createrecord/${record.department}/${record.formName}`) }} disabled={record.status !== "0"}>Edit</Button>
 
-                    <Button style={{ width: '80px' }} onClick={()=>handleDelete(record)} disabled={record.status === "1"} >Delete</Button>
+                    <Button style={{ width: '80px' }} onClick={()=>handleDelete(record)} disabled={record.status !== "0"} >Delete</Button>
                 </Space>
             ),
         }
