@@ -139,3 +139,15 @@ img{
         height: 30px; /* Modified: Adjusted height for smaller screens */
     }
 }
+
+
+.myCustomButton {
+    border-radius: 0;
+    background: linear-gradient(to right, #ffffff, #007bff 40%, #007bff 60%, #ffffff );
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.myCustomButton:hover {
+    opacity: 0.7;
+}

@@ -1,18 +1,19 @@
 import { useState } from 'react';
-import { Input, Button, Table, Space, DatePickerProps, Select, DatePicker,Form, message } from 'antd';
+import { Input, Button, Table, Space, DatePickerProps, Select, DatePicker, Form, message } from 'antd';
 import { testData } from '../../Formproperties/testdata';
 import { labData } from '../../Formproperties/labdata';
 import { formDeleteAPI, formSearchAPI } from '../../request/api';
 import { useNavigate } from "react-router-dom";
 import { format } from 'path';
+import jwtDecode from 'jwt-decode';
 
 
 interface Record {
-  status: string;
-  formName: string;
-  userName: string;
-  createTime: string;
-  department: string;
+    status: string;
+    formName: string;
+    userName: string;
+    createTime: string;
+    department: string;
 }
 
 
@@ -20,6 +21,11 @@ const Searchtest: React.FC = () => {
     const [data, setData] = useState<Record[]>([]);
     const [form] = Form.useForm();
     const navigateTo = useNavigate();
+    const token = localStorage.getItem('formsubmission-token');
+    let decodedToken: { department: string, userName: string, userType: number, staffCode: string } | null = null;
+    if (token) {
+        decodedToken = jwtDecode(token);
+    }
 
     const columns = [
         {
@@ -28,7 +34,7 @@ const Searchtest: React.FC = () => {
             key: 'formName',
             sorter: (a: Record, b: Record) => a.formName.localeCompare(b.formName),
             render: (formName: string) => {
-                return formatted(formName);   
+                return formatted(formName);
             },
         },
         {
@@ -65,7 +71,18 @@ const Searchtest: React.FC = () => {
             title: 'status',
             dataIndex: 'status',
             key: 'status',
-            render: (status: string) => (status === '1' ? 'Submitted' : 'Editable'),
+            render: (status: string) => {
+                switch (status) {
+                    case '1':
+                        return 'Submitted';
+                    case '2':
+                        return 'Approved';
+                    case '3':
+                        return 'Disapproved';
+                    default:
+                        return 'Editable';
+                }
+            },
             sorter: (a: Record, b: Record) => a.status.localeCompare(b.status),
         },
         {
@@ -73,9 +90,9 @@ const Searchtest: React.FC = () => {
             key: 'action',
             render: (text: string, record: Record) => (
                 <Space>
-                    <Button style={{ width: '80px' }} onClick={() => { console.log(`/Createrecord/${record.department}/${record.formName}`); navigateTo(`/Createrecord/${record.department}/${record.formName}`) }} disabled={record.status === "1"}>Edit</Button>
+                    <Button style={{ width: '80px' }} onClick={() => { console.log(`/Createrecord/${record.department}/${record.formName}`); navigateTo(`/Createrecord/${record.department}/${record.formName}`) }} disabled={record.status !== "0"}>Edit</Button>
 
-                    <Button style={{ width: '80px' }} onClick={()=>handleDelete(record)} disabled={record.status === "1"} >Delete</Button>
+                    <Button style={{ width: '80px' }} onClick={() => handleDelete(record)} disabled={record.status !== "0"} >Delete</Button>
                 </Space>
             ),
         }
@@ -89,7 +106,7 @@ const Searchtest: React.FC = () => {
 
     const handleLabChange = (value: TestName) => {
         setLabs(testData[value]);
-        form.setFieldsValue({ test: undefined }); 
+        form.setFieldsValue({ test: undefined });
     };
 
     const handleDelete = async (record: Record) => {
@@ -103,7 +120,7 @@ const Searchtest: React.FC = () => {
         console.log('Delete record:', deleteData);
 
         try {
-            const response:FormDeleteAPIRes = await formDeleteAPI(deleteData);
+            const response: FormDeleteAPIRes = await formDeleteAPI(deleteData);
             console.log('Response:', response);
             // Display success notification
             message.success('Record deleted successfully.');
@@ -129,6 +146,7 @@ const Searchtest: React.FC = () => {
         // Format dateFrom and dateTo as strings
         const formattedValues: FormSearchAPIReq = {
             ...rest,
+            department: decodedToken ? decodedToken.department:'',
             dateFrom: dateFrom ? dateFrom.format('YYYY-MM-DD') : undefined,
             dateTo: dateTo ? dateTo.format('YYYY-MM-DD') : undefined
         };
@@ -158,7 +176,7 @@ const Searchtest: React.FC = () => {
         <Form onFinish={onFinish} form={form}>
             <Space direction="vertical" size="small">
                 Lab:
-                <Form.Item name="lab" rules={[{ required: true }]}>
+                <Form.Item name="lab">
                     <Select
                         key={"lab"}
                         style={{ width: 480 }}

@@ -8,10 +8,9 @@ import {
 const Homepage = lazy(() => import("../views/Homepage"))
 const Formsubmit = lazy(() => import("../views/Formsubmit"))
 const Settings = lazy(() => import("../views/Settings"))
-const Password = lazy(() => import("../views/Password"))
-const Remarks = lazy(() => import("../views/Remarks"))
-const IOT = lazy(() => import("../views/IOT"))
-const MIT = lazy(() => import("../views/MIT"))
+const Calendar = lazy(() => import("../views/Calendar"))
+const Members = lazy(() => import("../views/Members"))
+const FormsinTeam = lazy(() => import("../views/FormsinTeam"))
 const Exit = lazy(() => import("../views/Exit"))
 const Successpage = lazy(() => import("../views/Successpage"))
 const Createrecord = lazy(() => import("../views/Createrecord"))
@@ -44,10 +43,6 @@ const Fire = lazy(() => import("../views/Createrecord/Fire"))
 const Deepcementmaterialtestinglab = lazy(() => import("../views/Createrecord/Deepcementmaterialtestinglab"))
 const Waterworksproductinsp = lazy(() => import("../views/Createrecord/Waterworksproductinsp"))
 const WaterworksInspectionManholeCoverInspection = lazy(() => import("../views/Createrecord/Waterworksproductinsp/WaterworksInspectionManholeCoverInspection"))
-const WaterworksInspectionDuctileIronFittingInspection = lazy(() => import("../views/Createrecord/Waterworksproductinsp/WaterworksInspectionDuctileIronFittingInspection"))
-const WaterworksInspectionSurfaceBoxInspection = lazy(() => import("../views/Createrecord/Waterworksproductinsp/WaterworksInspectionSurfaceBoxInspection"))
-const WaterworksInspectionValveInspection = lazy(() => import("../views/Createrecord/Waterworksproductinsp/WaterworksInspectionValveInspection"))
-    
 
 
 // Navigate 重定向组件
@@ -83,17 +78,14 @@ const routes = [
                 path: "/Settings",
                 element: withLoadingComponent(<Settings />)
             }, {
-                path: "/Password",
-                element: withLoadingComponent(<Password />)
+                path: "/Calendar",
+                element: withLoadingComponent(<Calendar />)
             }, {
-                path: "/Remarks",
-                element: withLoadingComponent(<Remarks />)
+                path: "/Members",
+                element: withLoadingComponent(<Members />)
             }, {
-                path: "/IOT",
-                element: withLoadingComponent(<IOT />)
-            }, {
-                path: "/MIT",
-                element: withLoadingComponent(<MIT />)
+                path: "/FormsinTeam",
+                element: withLoadingComponent(<FormsinTeam />)
             }, {
                 path: "/Exit",
                 element: withLoadingComponent(<Exit />)
@@ -188,17 +180,8 @@ const routes = [
                 path: "/Createrecord/Waterworksproductinsp",
                 element: withLoadingComponent(<Waterworksproductinsp />)
             }, {
-                path: "/Createrecord/Waterworksproductinsp/WaterworksInspectionManholeCoverInspection",
+                path: "/Createrecord/Waterworksproductinsp/:formName",
                 element: withLoadingComponent(<WaterworksInspectionManholeCoverInspection />)
-            },{
-                path: "/Createrecord/Waterworksproductinsp/WaterworksInspectionDuctileIronFittingInspection",
-                element: withLoadingComponent(<WaterworksInspectionDuctileIronFittingInspection />)
-            },{
-                path: "/Createrecord/Waterworksproductinsp/WaterworksInspectionSurfaceBoxInspection",
-                element: withLoadingComponent(<WaterworksInspectionSurfaceBoxInspection />)
-            },{
-                path: "/Createrecord/Waterworksproductinsp/WaterworksInspectionValveInspection",
-                element: withLoadingComponent(<WaterworksInspectionValveInspection />)
             },
         ]
     },

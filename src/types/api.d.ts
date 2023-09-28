@@ -1,7 +1,7 @@
 ﻿
 // 登录请求参数类型约束
 interface LoginAPIReq {
-    name: string;
+    staffid: string;
     password: string;
 }
 
@@ -72,6 +72,8 @@ interface UserSettingsReq {
 }
 
 interface UserSettingsFetchRes {
+    otherData: any;
+    success: any;
 }
 
 interface UserSettingsFetchReq {

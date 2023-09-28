@@ -7,21 +7,21 @@ const View = () => {
 
     const navigateTo = useNavigate();
 
-    const handleClick = (key: String) => {
-        navigateTo("/Createrecord/Waterworksproductinsp/" + key);
+    const handleClick = (formName: String) => {
+        navigateTo("/Createrecord/Waterworksproductinsp/" + formName);
     }
 
     const allButtons: React.ReactNode[] = [
-        <Button type="primary" block key='WaterworksInspectionDuctileIronFittingInspection' onClick={() => handleClick('WaterworksInspectionDuctileIronFittingInspection')} >
+        <Button type="primary" block className="myCustomButton" key='WaterworksInspectionDuctileIronFittingInspection' onClick={() => handleClick('WaterworksInspectionDuctileIronFittingInspection')} >
             Water Works Inspection - Ductile Iron Fitting Inspection
         </Button>, 
-        <Button type="primary" block key='WaterworksInspectionManholeCoverInspection' onClick={() => handleClick('WaterworksInspectionManholeCoverInspection')} >
+        <Button type="primary" block className="myCustomButton" key='INWW_MHCOV_INSPECT' onClick={() => handleClick('INWW_MHCOV_INSPECT')} >
             Water Works Inspection - Manhole Cover Inspection
         </Button>,
-        <Button type="primary" block key='WaterworksInspectionSurfaceBoxInspection' onClick={() => handleClick('WaterworksInspectionSurfaceBoxInspection')} >
+        <Button type="primary" block className="myCustomButton" key='WaterworksInspectionSurfaceBoxInspection' onClick={() => handleClick('WaterworksInspectionSurfaceBoxInspection')} >
             Water Works Inspection - Surface Box Inspection
         </Button>, 
-        <Button type="primary" block key='WaterworksInspectionValveInspection' onClick={() => handleClick('WaterworksInspectionValveInspection')} >
+        <Button type="primary" block className="myCustomButton" key='WaterworksInspectionValveInspection' onClick={() => handleClick('WaterworksInspectionValveInspection')} >
             Water Works Inspection - Valve Inspection
         </Button>, 
     ];

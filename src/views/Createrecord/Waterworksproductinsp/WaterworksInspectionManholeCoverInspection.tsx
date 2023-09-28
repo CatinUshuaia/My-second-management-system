@@ -1,10 +1,12 @@
-﻿import { PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Radio, Select, Upload, Modal, message, } from 'antd';
-import { useNavigate } from 'react-router-dom';
+﻿import { Button, Form, Input, Radio, Select, Modal, message, } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Componentnuminput from '@/components/Componentnuminput/index'
 import { FormSubmissionAPI, FormSaveAPI, fetchFormDataFromDB } from '../../../request/api';
 import jwtDecode from 'jwt-decode';
+import UploadComponent from '../../../components/Upload';
+import Componentnuminput from '../../../components/Componentnuminput';
+import axios from 'axios';
+
 
 const { TextArea } = Input;
 
@@ -15,34 +17,70 @@ const normFile = (e: any) => {
     return e?.fileList;
 };
 
-
-
 const View = () => {
+    const { formName } = useParams();
+    const [images, setImages] = useState<Image[]>([]);
     const navigateTo = useNavigate();
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [modalText, setModalText] = useState('');
     const [messageApi, contextHolder] = message.useMessage();
     const [form] = Form.useForm();
-    const formname = "WaterworksInspectionManholeCoverInspection"
     const token = localStorage.getItem('formsubmission-token');
-    let decodedToken: { department: string, userName: string } | null = null;
+    let decodedToken: { department: string, userName: string, userType: number, staffCode: string } | null = null;
+    const [formFields, setFormFields] = useState([]);
     if (token) {
         decodedToken = jwtDecode(token);
     }
+    console.log(decodedToken);
+
+    console.log(formName);
+
+    useEffect(() => {
+        fetchFormStructure();
+    }, [formName]);
+
+    const fetchFormStructure = async () => {
+        try {
+            const result = await axios.get(
+                `http://localhost:5223/Test/FetchFormStructure/${formName}`);
+            console.log(result);
+            const formFields = result.data.map((field: any) => ({
+                label: field.label,
+                type: field.type,
+                required: field.required,
+                value: field.value,
+            }));
+            setFormFields(formFields);
+        } catch (error) {
+            console.error('Error fetching data: ', error);
+        }
+    }
+
 
     useEffect(() => {
         const requestData = {
-            formName: formname,
+            formName: formName,
             userName: decodedToken?.userName
         };
+        console.log(formName)
         // 在组件挂载时获取数据
         fetchFormDataFromDB(requestData)
             .then((FetchFormDataRes) => {
-                console.log(FetchFormDataRes.message)
                 if (FetchFormDataRes.success) {
+                    console.log(fetchFormDataFromDB(requestData));
                     // 使用获取的数据设置表单字段的值
                     form.setFieldsValue(FetchFormDataRes.otherData);
+                    // 如果存在图片 URL，直接设置 images 状态
+                    //if (FetchFormDataRes.imageUrls) {
+                    //    const imageUrls = FetchFormDataRes.imageUrls.map((url: any, index:any) => ({
+                    //        uid: -index - 1, // 需要保证每个 uid 唯一，且不与上传的图片冲突，因此使用负索引
+                    //        url: url,
+                    //        status: 'done', // 用于告诉 antd 这个图片已经上传完成
+                    //    }));
+                    //    console.log(imageUrls);
+                    //    setImages(imageUrls as any);
+                    //}
                 }
             })
             .catch((error) => {
@@ -63,28 +101,33 @@ const View = () => {
     const handleOk = async () => {
 
         let frontEndData = {
-            formName: formname,
+            staffCode: decodedToken ? decodedToken.staffCode : '',
+            formName: formName,
             userName: decodedToken ? decodedToken.userName : '',
             department: decodedToken ? decodedToken.department : '',
-            OtherData: {}
+            OtherData: {},
+            imgURLs: [] as string[]
         };
 
         if (modalText === 'Are you sure to submit this test result?') {
             const values = await form.validateFields();
+            delete values.Upload;
 
             for (let key in values) {
                 frontEndData.OtherData[key] = values[key];
             }
 
+            frontEndData.imgURLs = images.map(image => image.url);  // 添加imgURLs
+
             setModalText('Submitting the test result now,please wait...');
             setConfirmLoading(true);
 
             try {
-                console.log('Submitting:', values);
+                console.log('Submitting:', frontEndData);
                 let FormAPIRes = await FormSubmissionAPI(frontEndData);
 
                 if (FormAPIRes) {
-                    console.log(FormAPIRes)
+                    console.log(FormAPIRes.success)
                     setOpen(false);
                     setConfirmLoading(false);
                     navigateTo("/Successpage");
@@ -103,17 +146,20 @@ const View = () => {
         else {
 
             const values = await form.getFieldsValue();
+            delete values.Upload;
 
             for (let key in values) {
                 frontEndData.OtherData[key] = values[key];
             }
+            frontEndData.imgURLs = images.map(image => image.url);  // 添加imgURLs
+
             setModalText('Saving the test result now,please wait...');
             setConfirmLoading(true);
 
             try {
                 console.log('Saving:', values);
                 let FormAPIRes = await FormSaveAPI(frontEndData);
-                if (FormAPIRes) {
+                if (FormAPIRes.success) {
                     console.log(FormAPIRes)
                     setOpen(false);
                     setConfirmLoading(false);
@@ -149,104 +195,88 @@ const View = () => {
         console.log('Failed:', errorInfo);
     };
 
-    const formatFormName = (formname: string) => {
-        const regex = /([A-Z])/g;
-        return formname.replace(regex, ' $1').trim();
-    };
-
     return (
 
         <div>
             <div className="home" style={{ fontSize: 30, textAlign: 'left', padding: 10, lineHeight: '48px', color: 'grey' }}>
-                <p>{formatFormName(formname)}</p>
+                <p>{formName as any}</p>
             </div>
             {contextHolder}
-            <Form
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 28 }}
-                layout="horizontal"
-                style={{ maxWidth: 1200 }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                onTouchStart={e => e.stopPropagation()}
-                form={form}
-            >
-                <Form.Item
-                    label="Visual Appearance Check"
-                    name="Visual Appearance Check"
-                    rules={[{ required: true, message: 'Please choose the value' }]}
+            {formFields.length > 0 && (
+                <Form
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 28 }}
+                    layout="horizontal"
+                    style={{ maxWidth: 1200 }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    onTouchStart={e => e.stopPropagation()}
+                    form={form}
                 >
-                    <Radio.Group>
-                        <Radio value="satisfied"> Satisfied </Radio>
-                        <Radio value="defect"> Defect </Radio>
-                    </Radio.Group>
-                </Form.Item>
-                <Componentnuminput label={"Frame External Length"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Frame External Width"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Frame Internal Length"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Frame Internal Width"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Frame Height"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Cover Length"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Cover Width"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Cover Height"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Protective Coating Thickness"} rules={[{ required: true }]} />
-                             
-                <Form.Item
-                    label="Loading Test"
-                    name="Loading Test"
-                    rules={[{ required: true, message: 'Please choose the value' }]}
-                >
-                    <Radio.Group>
-                        <Radio value="pass"> Pass </Radio>
-                        <Radio value="fail"> Fail </Radio>
-                    </Radio.Group>
-                </Form.Item>
 
-                <Componentnuminput label={"Weighing Test"} rules={[{ required: true }]} />
-                
-                <Form.Item label="Other Tests" name="Other Tests">
-                    <TextArea rows={4} />
-                </Form.Item>
+                    <Form.Item label="Project Number" >
+                        <Form.Item
+                            style={{ display: 'inline-block' }}
+                            name="Project Number"
+                        >
+                            <Input disabled />
+                        </Form.Item>
+                    </Form.Item>
 
-                <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile} name="Upload">
-                    <Upload action="/upload.do" listType="picture-card">
-                    <div>
-                        <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Upload</div>
-                </div>
-                    </Upload>
-                </Form.Item>
+                    {formFields.map((field: any, index) => {
+                        if (field.type === 'selectinput') {
+                            return (
+                                <Form.Item
+                                    key={index}
+                                    label={field.label}
+                                    name={field.label}
+                                    rules={[{ required: field.required, message: 'Please choose the value' }]}
+                                >
+                                    <Radio.Group>
+                                        <Radio value={field.value ? field.value[0] : ''}>{field.value ? field.value[0] : ''}</Radio>
+                                        <Radio value={field.value ? field.value[1] : ''}>{field.value ? field.value[1] : ''}</Radio>
+                                    </Radio.Group>
+                                </Form.Item>
+                            );
+                        } else if (field.type === 'numpinput') {
+                            return (
+                                <Componentnuminput key={index} label={field.label} rules={[{ required: field.required }]} />
+                            );
+                        } else if (field.type === 'otherinput') {
+                            return (
+                                <Form.Item key={index} label="Other Tests" name="Other Tests">
+                                    <TextArea rows={4} />
+                                </Form.Item>
+                            );
+                        } else {
+                            return null;
+                        }
+                    })}
 
-                 <Form.Item label="Project Number">
-                    <Form.Item
-                        name="Project Number"
-                        style={{ display: 'inline-block' }}
-                    >
-                        <Input />
-                    </Form.Item>                  
-                 </Form.Item> 
+                    <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile} name="Upload">
+                        <UploadComponent userName={decodedToken ? decodedToken.userName : ''} images={images} setImages={setImages} />
+                    </Form.Item>
 
-                <Form.Item className="templatebuttons">
-                    <Button type="primary" htmlType="submit" style={{ marginRight: '16px' }}>
-                        Submit
-                    </Button>
-                    <Modal
-                        title="Title"
-                        open={open}
-                        onOk={handleOk}
-                        confirmLoading={confirmLoading}
-                        onCancel={handleCancel}
-                    >
-                        <p>{modalText}</p>
-                    </Modal>
-                    <Button onClick={handleSaveButtonClick}>
-                        Save
-                    </Button>
-                </Form.Item>
-                
-             
-            </Form>
-        </div>
+                    <Form.Item className="templatebuttons">
+                        <Button type="primary" htmlType="submit" style={{ marginRight: '16px' }}>
+                            Submit
+                        </Button>
+                        <Modal
+                            title="Confirmation"
+                            open={open}
+                            onOk={handleOk}
+                            confirmLoading={confirmLoading}
+                            onCancel={handleCancel}
+                        >
+                            <p>{modalText}</p>
+                        </Modal>
+                        <Button onClick={handleSaveButtonClick}>
+                            Save
+                        </Button>
+                    </Form.Item>
+
+                </Form>
+            )}</div>
     )
 }
 

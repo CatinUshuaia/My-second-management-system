@@ -11,14 +11,14 @@ const view = () => {
     let navigateTo = useNavigate();
 
     //获取用户输入的信息
-    const [usernameVal, setUsernameVal] = useState("");
+    const [staffcodeVal, setStaffcodeVal] = useState("");
     const [passwordVal, setPasswordVal] = useState("");
 
-    const usernameChange = (e:ChangeEvent<HTMLInputElement>) => { 
+    const staffCodeChange = (e:ChangeEvent<HTMLInputElement>) => { 
     //获取用户输入的用户名
 
     //修改usernameVal这个变量为用户输入值，以后拿到这个变量相当于拿到用户输入信息。 
-        setUsernameVal(e.target.value);
+        setStaffcodeVal(e.target.value);
     }
 
     const passwordChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,33 +32,39 @@ const view = () => {
     //点击登录按钮事件
     const gotoLogin = async () => {
         //验证是否有空值
-        if (!usernameVal.trim() || !passwordVal.trim()) {
+        if (!staffcodeVal.trim() || !passwordVal.trim()) {
             message.warning("请输入完整信息！")
             return;
         }
+        try {
+            // 发起登录请求
+            let loginAPIRes = await LoginAPI({
+                staffid: staffcodeVal,
+                password: passwordVal,
+            });
 
-        //发起登录请求
-        let loginAPIRes = await LoginAPI({
-            name: usernameVal,
-            password: passwordVal,
-        })
 
-        console.log(loginAPIRes);   
-        
-        if (loginAPIRes.success === true) {
-            //1.提示登录成功
-            message.success("登录成功！");
-            //2.保存token
-            localStorage.setItem("formsubmission-token", loginAPIRes.data.accesstoken);
 
-            //3.跳转到/page1
-            navigateTo("/homepage");
-            return;
-        }
+            console.log(loginAPIRes);
 
-        if (loginAPIRes.success === false) {
-            message.error("用户名或密码错误")
-            return;
+            if (loginAPIRes.success === true) {
+                // 1.提示登录成功
+                message.success("登录成功！");
+                // 2.保存token
+                localStorage.setItem("formsubmission-token", loginAPIRes.data.accesstoken);
+
+                // 3.跳转到/page1
+                navigateTo("/homepage");
+                return;
+            }
+
+            if (loginAPIRes.success === false) {
+                message.error("用户名或密码错误");
+                return;
+            }
+        } catch (error) {
+            message.error("网络连接失败，请稍后重试");
+            console.error(error);
         }
     }
 
@@ -82,8 +88,8 @@ const view = () => {
                     <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
                     <Input type="text"
                         className="input"
-                        placeholder="Username"
-                        onChange={usernameChange} />
+                        placeholder="StaffCode"
+                        onChange={staffCodeChange} />
 
                     <Input.Password
                         type="text"

@@ -1,5 +1,5 @@
 ﻿import {Button,Form,Input,Radio,Select,Modal,message,} from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { FormSubmissionAPI, FormSaveAPI, fetchFormDataFromDB } from '../../../request/api';
 import jwtDecode from 'jwt-decode';
@@ -18,7 +18,7 @@ const normFile = (e: any) => {
 };
 
 const View = () => {
-
+    const { formType } = useParams();
     const [images, setImages] = useState<Image[]>([]);
     const navigateTo = useNavigate();
     const [open, setOpen] = useState(false);
@@ -27,16 +27,18 @@ const View = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const [form] = Form.useForm();
     const token = localStorage.getItem('formsubmission-token');
-    let decodedToken: { department: string, userName: string, userType:number} | null = null;
+    let decodedToken: { department: string, userName: string, userType:number,staffCode:string} | null = null;
     if (token) {
         decodedToken = jwtDecode(token);
     }
+    console.log(decodedToken);
 
     useEffect(() => {
         const requestData = {
             formName: formname,
             userName: decodedToken?.userName
         };
+        console.log(formType)
         // 在组件挂载时获取数据
         fetchFormDataFromDB(requestData)
             .then((FetchFormDataRes) => {
@@ -74,6 +76,7 @@ const View = () => {
     const handleOk = async () => {
 
         let frontEndData = {
+            staffCode: decodedToken ? decodedToken.staffCode : '',
             formName: formname,
             userName: decodedToken ? decodedToken.userName : '',
             department: decodedToken ? decodedToken.department : '',
@@ -95,11 +98,11 @@ const View = () => {
             setConfirmLoading(true);
 
             try {
-                console.log('Submitting:', values);
+                console.log('Submitting:', frontEndData);
                 let FormAPIRes = await FormSubmissionAPI(frontEndData);
 
                 if (FormAPIRes) {
-                    console.log(FormAPIRes)
+                    console.log(FormAPIRes.success)
                     setOpen(false);
                     setConfirmLoading(false);
                     navigateTo("/Successpage");
@@ -131,7 +134,7 @@ const View = () => {
             try {
                 console.log('Saving:', values);
                 let FormAPIRes = await FormSaveAPI(frontEndData);
-                if (FormAPIRes) {
+                if (FormAPIRes.success) {
                     console.log(FormAPIRes)
                     setOpen(false);
                     setConfirmLoading(false);
@@ -172,6 +175,18 @@ const View = () => {
         return formname.replace(regex, ' $1').trim();
     };
 
+    const formFields = [
+        { label: "Dia. of bolt circle", type: "numpinput", required: true },
+        { label: "External diameter", type: "numpinput", required: true },
+        { label: "Effective length", type: "numpinput", required: true },
+        { label: "Iron thickness", type: "numpinput", required: true },
+        { label: "Cement lining thickness", type: "numpinput", required: true },
+        { label: "Epoxy coating thickness", type: "numpinput", required: true },
+        { label: "Bitumen Coating thickness", type: "numpinput", required: true },
+        { label: "Cover Height", type: "numpinput", required: true },
+        { label: "hydrostatic pressure test duration", type: "selectinput", value: ["satisfied","defect"],required: true },
+    ];
+
 
     return (
 
@@ -191,15 +206,37 @@ const View = () => {
                 form={form}
             >
 
-                <Componentnuminput label={"Dia. of bolt circle"} rules={[{required: true}]} />
-                <Componentnuminput label={"External diameter"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Effective length"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Iron thickness"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Cement lining thickness"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Epoxy coating thickness"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Bitumen Coating thickness"} rules={[{ required: true }]} />
-                <Componentnuminput label={"Cover Height"} rules={[{ required: true }]} />
-                <Componentnuminput label={"hydrostatic pressure test duration"} rules={[{ required: true }]} />
+                <Form.Item label="Project Number" >
+                    <Form.Item
+                        style={{ display: 'inline-block' }}
+                        name="Project Number"
+                    >
+                        <Input disabled/>
+                    </Form.Item>
+                </Form.Item>
+
+                {formFields.map(field => {
+                    if (field.type === 'selectinput') {
+                        return (
+                            <Form.Item
+                                label={field.label}
+                                name={field.label}
+                                rules={[{ required: field.required, message: 'Please choose the value' }]}
+                            >
+                                <Radio.Group>
+                                    <Radio value={field.value ? field.value[0] : ""}> {field.value ? field.value[0] : ""} </Radio>
+                                    <Radio value={field.value ? field.value[1] : ""}> {field.value ? field.value[1] : ""} </Radio>
+                                </Radio.Group>
+                            </Form.Item>
+                        );
+                    }
+
+                    else if (field.type === 'numpinput') {
+                        return (
+                            <Componentnuminput label={field.label} rules={[{ required: field.required }]} />
+                        );
+                    }
+                })}
 
                 <Form.Item label="Other Tests" name="Other Tests">
                     <TextArea rows={4} />
@@ -207,15 +244,6 @@ const View = () => {
 
                 <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile}  name="Upload">
                     <UploadComponent userName={decodedToken ? decodedToken.userName : ''} images={images} setImages={setImages} />
-                </Form.Item>
-
-                <Form.Item label="Project Number">
-                    <Form.Item
-                        style={{ display: 'inline-block' }}
-                        name="Project Number"
-                    >
-                        <Input />
-                    </Form.Item>
                 </Form.Item>
 
                 <Form.Item className="templatebuttons">

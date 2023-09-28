@@ -1,12 +1,14 @@
-﻿import { PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Radio, Select, Upload, Modal, message, } from 'antd';
+﻿import { Button, Form, Input, Radio, Select, Modal, message, } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Componentnuminput from '@/components/Componentnuminput/index'
 import { FormSubmissionAPI, FormSaveAPI, fetchFormDataFromDB } from '../../../request/api';
 import jwtDecode from 'jwt-decode';
+import UploadComponent from '../../../components/Upload';
+import Componentnuminput from '../../../components/Componentnuminput';
+
 
 const { TextArea } = Input;
+const formname = "WaterworksInspectionSurfaceBoxInspection"
 
 const normFile = (e: any) => {
     if (Array.isArray(e)) {
@@ -16,15 +18,18 @@ const normFile = (e: any) => {
 };
 
 const View = () => {
+
+    const [images, setImages] = useState<Image[]>([]);
     const navigateTo = useNavigate();
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [modalText, setModalText] = useState('');
     const [messageApi, contextHolder] = message.useMessage();
     const [form] = Form.useForm();
-    const formname = "WaterworksInspectionSurfaceBoxInspection"
     const token = localStorage.getItem('formsubmission-token');
-    let decodedToken: { department: string, userName: string } | null = null;
+    let decodedToken: {
+        staffCode: string; department: string, userName: string, userType: number 
+} | null = null;
     if (token) {
         decodedToken = jwtDecode(token);
     }
@@ -37,10 +42,20 @@ const View = () => {
         // 在组件挂载时获取数据
         fetchFormDataFromDB(requestData)
             .then((FetchFormDataRes) => {
-                console.log(FetchFormDataRes.message)
                 if (FetchFormDataRes.success) {
+                    console.log(fetchFormDataFromDB(requestData));
                     // 使用获取的数据设置表单字段的值
                     form.setFieldsValue(FetchFormDataRes.otherData);
+                    // 如果存在图片 URL，直接设置 images 状态
+                    //if (FetchFormDataRes.imageUrls) {
+                    //    const imageUrls = FetchFormDataRes.imageUrls.map((url: any, index:any) => ({
+                    //        uid: -index - 1, // 需要保证每个 uid 唯一，且不与上传的图片冲突，因此使用负索引
+                    //        url: url,
+                    //        status: 'done', // 用于告诉 antd 这个图片已经上传完成
+                    //    }));
+                    //    console.log(imageUrls);
+                    //    setImages(imageUrls as any);
+                    //}
                 }
             })
             .catch((error) => {
@@ -61,18 +76,23 @@ const View = () => {
     const handleOk = async () => {
 
         let frontEndData = {
+            staffCode: decodedToken ? decodedToken.staffCode : '',
             formName: formname,
             userName: decodedToken ? decodedToken.userName : '',
             department: decodedToken ? decodedToken.department : '',
-            OtherData: {}
+            OtherData: {},
+            imgURLs: [] as string[]
         };
 
         if (modalText === 'Are you sure to submit this test result?') {
             const values = await form.validateFields();
+            delete values.Upload;
 
             for (let key in values) {
                 frontEndData.OtherData[key] = values[key];
             }
+
+            frontEndData.imgURLs = images.map(image => image.url);  // 添加imgURLs
 
             setModalText('Submitting the test result now,please wait...');
             setConfirmLoading(true);
@@ -101,10 +121,13 @@ const View = () => {
         else {
 
             const values = await form.getFieldsValue();
+            delete values.Upload;
 
             for (let key in values) {
                 frontEndData.OtherData[key] = values[key];
             }
+            frontEndData.imgURLs = images.map(image => image.url);  // 添加imgURLs
+
             setModalText('Saving the test result now,please wait...');
             setConfirmLoading(true);
 
@@ -151,7 +174,6 @@ const View = () => {
         const regex = /([A-Z])/g;
         return formname.replace(regex, ' $1').trim();
     };
-
     return (
 
         <div>
@@ -207,12 +229,7 @@ const View = () => {
                 </Form.Item>
 
                 <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile} name="Upload">
-                    <Upload action="/upload.do" listType="picture-card">
-                        <div>
-                            <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>Upload</div>
-                        </div>
-                    </Upload>
+                    <UploadComponent userName={decodedToken ? decodedToken.userName : ''} images={images} setImages={setImages} />
                 </Form.Item>
 
                 <Form.Item label="Project Number">

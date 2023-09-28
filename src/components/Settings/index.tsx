@@ -1,5 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, InputNumber, Row, Col, Card, Upload, message } from 'antd';
+import { Button, Form, Input, InputNumber, Row, Col, Card, Upload, message, Typography } from 'antd';
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { RcFile } from 'antd/es/upload';
 import { uploadUserImgURL } from '../../request';
@@ -110,6 +110,7 @@ const Settings: React.FC<UploadComponentProps> = ({ userName, images, setImages 
 
                 if (UserSettingsRes) {
                     console.log(UserSettingsRes)
+                    message.success('Save successful');
                 }
             } catch (error) {
                 console.error(error);
@@ -134,26 +135,35 @@ const Settings: React.FC<UploadComponentProps> = ({ userName, images, setImages 
                         border: '1px solid #888',
                         boxShadow: '30px 20px 10px rgba(0,0,0,0.1)',
                         backgroundColor: '#FFFAFA',
-                        borderRadius: '4px'
+                        borderRadius: '4px',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover'
                     }}
                 >
                     <Row justify="center">
-                        <Col span={22}>
-                            <Upload
-                                name="file"
-                                listType="picture-card"
-                                action={`${uploadUserImgURL}?userName=${userName}`}
-                                beforeUpload={beforeUpload}
-                                onChange={handleChange}
-                                onRemove={handleRemove as any}
-                                maxCount={1}
-                            >
-                                <div>
-                                    <PlusOutlined />
-                                    <div style={{ marginTop: 8 }}>{loading ? <LoadingOutlined /> : 'Upload'}</div>
-                                </div>
-                            </Upload>
+                        <Col span={24}>
+                            <Typography.Title level={2} style={{ textAlign: 'center' }}>
+                                Personal Profile
+                            </Typography.Title>
                         </Col>
+                        <Row justify="center" style={{ marginBottom: '20px' }}>
+                            <Col span={22}>
+                                <Upload
+                                    name="file"
+                                    listType="picture-card"
+                                    action={`${uploadUserImgURL}?userName=${userName}`}
+                                    beforeUpload={beforeUpload}
+                                    onChange={handleChange}
+                                    onRemove={handleRemove as any}
+                                    maxCount={1}
+                                >
+                                    <div>
+                                        <PlusOutlined />
+                                        <div style={{ marginTop: 8 }}>{loading ? <LoadingOutlined /> : 'Upload'}</div>
+                                    </div>
+                                </Upload>
+                            </Col>
+                        </Row>
                     </Row>
                     <Form
                         {...layout}
@@ -165,16 +175,16 @@ const Settings: React.FC<UploadComponentProps> = ({ userName, images, setImages 
                         form={form}
                     >
                         <Form.Item name="name" label="Name" >
-                            <Input disabled />
+                            <Input style={{ width: '80%' }} disabled />
                         </Form.Item>
                         <Form.Item name="userType" label="UserType" >
-                            <Input disabled />
+                            <Input style={{ width: '80%' }} disabled />
                         </Form.Item>
                         <Form.Item name="department" label="Department"> 
-                            <Input disabled/>
+                            <Input style={{ width: '80%' }} disabled/>
                         </Form.Item>
                         <Form.Item name="email" label="Email" rules={[{ type: 'email' }]}>
-                            <Input />
+                            <Input style={{ width: '80%' }} />
                         </Form.Item>
                         <Form.Item wrapperCol={{ offset: 11, span: 18 }}>
                             <Button type="primary" htmlType="submit" >

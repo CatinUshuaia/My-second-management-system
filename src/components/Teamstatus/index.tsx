@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 interface DataType {
     key: string;
     name: string;
-    age: number;
+    department: string;
     email: string;
-    tags: string[];
+    userType: string[];
 }
 
 const columns: ColumnsType<DataType> = [
@@ -15,12 +17,6 @@ const columns: ColumnsType<DataType> = [
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        render: (text) => <a>{text}</a>,
-    },
-    {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
     },
     {
         title: 'Email',
@@ -28,19 +24,21 @@ const columns: ColumnsType<DataType> = [
         key: 'email',
     },
     {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: (_, { tags }) => (
+        title: 'Department',
+        dataIndex: 'department',
+        key: 'department',
+    },
+    {
+        title: 'UserType',
+        key: 'userType',
+        dataIndex: 'userType',
+        render: (_, { userType }) => (
             <>
-                {tags.map((tag) => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'MIT' || tag === 'MTR') {
-                        color = 'volcano';
-                    }
+                {userType.map((userType) => {
+                    let color = userType === 'ADMIN' ? 'red' : 'green';
                     return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
+                        <Tag color={color} key={userType}>
+                            {userType.toUpperCase()}
                         </Tag>
                     );
                 })}
@@ -52,37 +50,43 @@ const columns: ColumnsType<DataType> = [
         key: 'action',
         render: (_, record) => (
             <Space size="middle">
-                <a>View</a>
-                <a>Contact</a>
+                <a>N/A</a>
             </Space>
         ),
     },
 ];
 
-const data: DataType[] = [
-    {
-        key: '1',
-        name: 'Leslie',
-        age: 30,
-        email: 'Leslie@castco.com',
-        tags: ['nice', 'leader'],
-    },
-    {
-        key: '2',
-        name: 'Hugo',
-        age: 22,
-        email: 'Hugo@castco.com',
-        tags: ['MIT','intern'],
-    },
-    {
-        key: '3',
-        name: 'Jason',
-        age: 21,
-        email: 'Jason@castco.com',
-        tags: ['MTR', 'intern'],
-    },
-];
+const Teamstatus: React.FC = () => {
+    const [data, setData] = useState<DataType[]>([]);
+    const token = localStorage.getItem('formsubmission-token');
+    let decodedToken: { department: string; userName: string; userType: number } | null = null;
+    if (token) {
+        decodedToken = jwtDecode(token);
+    }
 
-const Teamstatus: React.FC = () => <Table columns={columns} dataSource={data} />;
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Replace with your API endpoint
+                const result = await axios.get<DataType[]>(`http://localhost:5223/api/User/getTeam/${decodedToken?.department}`);
+                console.log(result);
+                const transformedData = result.data.map((user: any, index: number) => ({
+                    key: index.toString(),
+                    name: user.name || 'N/A',
+                    email: user.email || 'N/A',
+                    department: user.department || 'N/A',
+                    userType: user.userType === '1' ? ['ADMIN'] : ['USER'],
+                }));
+                setData(transformedData as any);
+            } catch (error) {
+                console.error('Error fetching data: ', error);
+            }
+        };
+
+        fetchData();
+    }, []); // Empty dependency array means this effect runs once when component mounts
+
+    return <Table columns={columns} dataSource={data} />;
+};
 
 export default Teamstatus;

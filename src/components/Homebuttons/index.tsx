@@ -24,11 +24,11 @@ const Homebuttons: React.FC = () => {
     return (
 
         <Space size={150} direction="vertical" style={{ width: '100%' }}>
-            <Button className="homepageBtn" type="primary" shape="round"  icon={<FormOutlined />} onClick={handleRecordClick}>
+            <Button className="homepageBtn" type="primary" shape="round" icon={<FormOutlined />} onClick={handleRecordClick} style={{ fontWeight: 'bold', fontSize: '20px' }}>
                 Create Record
             </Button>
 
-            <Button className="homepageBtn" type="primary" shape="round"  icon={<SearchOutlined />} onClick={handleSearchClick}>
+            <Button className="homepageBtn" type="primary" shape="round" icon={<SearchOutlined />} onClick={handleSearchClick} style={{ fontWeight: 'bold', fontSize: '20px' }}>
                 Search Record
             </Button>
 
