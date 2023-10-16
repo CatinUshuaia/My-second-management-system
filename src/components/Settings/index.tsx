@@ -25,14 +25,14 @@ const onFinish = (values: any) => {
     console.log(values);
 };
 
-const Settings: React.FC<UploadComponentProps> = ({ userName, images, setImages }) => {
+const Settings: React.FC<UploadComponentProps> = ({staffCode, images, setImages }) => {
     const [loading, setLoading] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
     const [form] = Form.useForm();
 
     useEffect(() => {
         const requestData = {
-            userName: userName
+            staffCode: staffCode
         };
         // 在组件挂载时获取数据
         UserSettingsFetch(requestData)
@@ -96,11 +96,15 @@ const Settings: React.FC<UploadComponentProps> = ({ userName, images, setImages 
             OtherData: {},
             imgURLs: [] as string[]
         };
-            const values = await form.getFieldsValue();
+        const values = await form.getFieldsValue();
 
-            for (let key in values) {
-                frontEndData.OtherData[key] = values[key];
-            }
+        for (let key in values) {
+            // 将属性名的首字母转换为大写
+            const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+            frontEndData.OtherData[capitalizedKey] = values[key];
+        }
+
+
 
             frontEndData.imgURLs = images.map(image => image.url);  // 添加imgURLs
             console.log(frontEndData);
@@ -151,7 +155,7 @@ const Settings: React.FC<UploadComponentProps> = ({ userName, images, setImages 
                                 <Upload
                                     name="file"
                                     listType="picture-card"
-                                    action={`${uploadUserImgURL}?userName=${userName}`}
+                                    action={`${uploadUserImgURL}?staffCode=${staffCode}`}
                                     beforeUpload={beforeUpload}
                                     onChange={handleChange}
                                     onRemove={handleRemove as any}
@@ -177,14 +181,11 @@ const Settings: React.FC<UploadComponentProps> = ({ userName, images, setImages 
                         <Form.Item name="name" label="Name" >
                             <Input style={{ width: '80%' }} disabled />
                         </Form.Item>
-                        <Form.Item name="userType" label="UserType" >
+                        <Form.Item name="staffCode" label="StaffCode" >
                             <Input style={{ width: '80%' }} disabled />
                         </Form.Item>
                         <Form.Item name="department" label="Department"> 
                             <Input style={{ width: '80%' }} disabled/>
-                        </Form.Item>
-                        <Form.Item name="email" label="Email" rules={[{ type: 'email' }]}>
-                            <Input style={{ width: '80%' }} />
                         </Form.Item>
                         <Form.Item wrapperCol={{ offset: 11, span: 18 }}>
                             <Button type="primary" htmlType="submit" >

@@ -19,11 +19,6 @@ const columns: ColumnsType<DataType> = [
         key: 'name',
     },
     {
-        title: 'Email',
-        dataIndex: 'email',
-        key: 'email',
-    },
-    {
         title: 'Department',
         dataIndex: 'department',
         key: 'department',
@@ -73,7 +68,6 @@ const Teamstatus: React.FC = () => {
                 const transformedData = result.data.map((user: any, index: number) => ({
                     key: index.toString(),
                     name: user.name || 'N/A',
-                    email: user.email || 'N/A',
                     department: user.department || 'N/A',
                     userType: user.userType === '1' ? ['ADMIN'] : ['USER'],
                 }));

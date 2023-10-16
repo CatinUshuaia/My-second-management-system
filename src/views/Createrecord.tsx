@@ -1,133 +1,68 @@
-﻿import Searchbuttons from "@/components/Searchbuttons"
-import { Button } from "antd";
+﻿import Searchbuttons from "@/components/Searchbuttons";
+import { Button, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from 'jwt-decode';
-
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const View = () => {
-
     const navigateTo = useNavigate();
+    const [labData, setLabData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const handleClick = (key: String) => {
-        navigateTo("/Createrecord/" + key);
-    }
+    const handleClick = (labName: string) => {
+        navigateTo("/Createrecord/" + labName);
+    };
+
     const token = localStorage.getItem('formsubmission-token');
 
     // 解码 JWT 令牌
-    let decodedToken: { department: string, userType: string } | null = null;
+    let decodedToken: { department: string, userType: string, staffCode:string} | null = null;
     if (token) {
         decodedToken = jwtDecode(token);
     }
-        
-        let allButtons: React.ReactNode[] = [
-            <Button type="primary" block className="myCustomButton" key='Bitumen' onClick={() => handleClick('Bitumen')}>
-                Bitumen
-            </Button>,
-            <Button type="primary" block className="myCustomButton" key='Buildingcomponent' onClick={() => handleClick('Buildingcomponent')} >
-            Building Component
-        </Button>,
-            <Button type="primary" block className="myCustomButton" key='Buildingcomponentrock' onClick={() => handleClick('Buildingcomponentrock')} >
-            Building Component-ROCK
-        </Button>,
-            <Button type="primary" block className="myCustomButton" key='Buildingdiagnostic' onClick={() => handleClick('Buildingdiagnostic')} >
-            Building Diagnostic
-        </Button>,
-            <Button type="primary" block className="myCustomButton" key='Calibration' onClick={() => handleClick('Calibration')} >
-            Calibration
-        </Button>,
-            <Button type="primary" block className="myCustomButton" key='Cement' onClick={() => handleClick('Cement')} >
-            Cement
-        </Button>,
-            <Button type="primary" block className="myCustomButton" key='Chemical' onClick={() => handleClick('Chemical')} >
-            Chemical
-        </Button>,
-            <Button type="primary" block className="myCustomButton" key='Chinesemedicine' onClick={() => handleClick('Chinesemedicine')} >
-            Chinese Medicine
-        </Button>,
-            <Button type="primary" block className="myCustomButton" key='Concretecore' onClick={() => handleClick('Concretecore')} >
-            Concrete Core
-        </Button>,
-            <Button type="primary" block className="myCustomButton" key='Concretecube' onClick={() => handleClick('Concretecube')} >
-            Concrete Cube
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Deepcementmaterialtestinglab' onClick={() => handleClick('Deepcementmaterialtestinglab')} >
-            Deep Cement Material Testing Lab
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Drainagepipe' onClick={() => handleClick('Drainagepipe')} >
-            Drainage Pipe
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Environmental' onClick={() => handleClick('Environmental')} >
-            Environmental
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Fire' onClick={() => handleClick('Fire')} >
-            Fire
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Food' onClick={() => handleClick('Food')} >
-            Food
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Generaloffice' onClick={() => handleClick('Generaloffice')} >
-            General Office
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Geotechnicinvestigation' onClick={() => handleClick('Geotechnicinvestigation')} >
-            Geotechnic Investigation
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Microbiological' onClick={() => handleClick('Microbiological')} >
-            Microbiological
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='NDTwelding' onClick={() => handleClick('NDTwelding')} >
-            NDT Welding
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Paint' onClick={() => handleClick('Paint')} >
-            Paint
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Piling' onClick={() => handleClick('Piling')} >
-            Piling
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Site' onClick={() => handleClick('Site')} >
-            Site
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='SoilandaggregatephaseI' onClick={() => handleClick('SoilandaggregatephaseI')} >
-            Soil and Aggregate phase I
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='SoilPh2' onClick={() => handleClick('SoilPh2')} >
-            Soil Ph.2
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Steel' onClick={() => handleClick('Steel')} >
-            Steel
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Waterworksproductinsp' onClick={() => handleClick('Waterworksproductinsp')} >
-            Water Works ProductInsp.
-        </Button>,
-        <Button type="primary" block className="myCustomButton" key='Zhongshan2013' onClick={() => handleClick('Zhongshan2013')} >
-            Zhong Shan 2013
-        </Button>
-    ];
-    if (decodedToken && decodedToken.userType !== '1') {
 
-        if (decodedToken && decodedToken.department === "Waterworksproductinsp") {
-            allButtons = [<Button type="primary" block className="myCustomButton" key='Waterworksproductinsp' onClick={() => handleClick('Waterworksproductinsp')} >
-                Water Works ProductInsp.
-            </Button>,]
+    useEffect(() => {
+        fetchLabStructure();
+    }, []);
+
+    const fetchLabStructure = async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:5223/Test/getLab?staffCode=${decodedToken?.staffCode}`
+            );
+            setLabData(response.data);
+            console.log(response.data);
+            setIsLoading(false); 
+        } catch (error) {
+            console.error('Error fetching data: ', error);
         }
+    };
 
-        if (decodedToken && decodedToken.department === "Zhongshan2013") {
-            allButtons = [<Button type="primary" block className="myCustomButton" key='Zhongshan2013' onClick={() => handleClick('Zhongshan2013')} >
-                Zhong Shan 2013
-            </Button>,]
-        }
-    }
+    const generateButtons = () => {
+        return labData.map((lab: any) => (
+            <Button
+                type="primary"
+                block
+                className="myCustomButton"
+                key={lab.labKey}
+                onClick={() => handleClick(lab.labFullName)}
+            >
+                {lab.labFullName}
+            </Button>
+        ));
+    };
 
-        return (
-            <>
-                <div style={{ fontSize: 30, paddingLeft: 20, lineHeight: '48px', color: 'grey' }}>
-                    Create Record
-                </div>
-                <div className="formsearch">
-                    <Searchbuttons allButtons={allButtons} />
-                </div>
-            </>
-        )
+    return (
+        <>
+            <div style={{ fontSize: 30, paddingLeft: 20, lineHeight: '48px', color: 'grey' }}>
+                Create Record
+            </div>
+            <div className="formsearch">
+                {isLoading ? <Spin /> : <Searchbuttons allButtons={generateButtons()} />}
+            </div>
+        </>
+    );
 };
 
-
-export default View
+export default View;

@@ -53,7 +53,7 @@ const UploadComponent: React.FC<UploadComponentProps> = ({ userName, images, set
             <Upload
                 name="file"
                 listType="picture-card"
-            action={`${uploadFormImgURL}?userName=${userName}`}
+                action={`${uploadFormImgURL}?userName=${userName}`}
                 beforeUpload={beforeUpload}
                 onChange={handleChange}
                 onRemove={handleRemove as any}

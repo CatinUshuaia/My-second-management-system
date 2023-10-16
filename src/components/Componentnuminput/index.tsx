@@ -24,10 +24,11 @@ const Componentnuminput: React.FC<ComponentnuminputProps> = ({ label, rules = []
             <Input />
         </Form.Item>
 
-    <Form.Item
-            style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
-            rules={mergedUnitRules}
+            <Form.Item
+                style={{ display: 'inline-block', width: '100px', margin: '0 8px' }}
+                rules={mergedUnitRules}
                 name={`${label} Unit`}
+                initialValue={"-"}
     >
 
         <Select

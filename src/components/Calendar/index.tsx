@@ -20,14 +20,14 @@ const App: React.FC = () => {
     useEffect(() => {
         const token = localStorage.getItem('formsubmission-token');
 
-        let decodedToken: { userName: string } | null = null;
+        let decodedToken: { staffCode: string } | null = null;
         if (token) {
             decodedToken = jwtDecode(token);
         }
 
         const fetchHistoryRecords = async () => {
             try {
-                const response = await axios.get(`http://localhost:5223/api/User/getHistory/${decodedToken?.userName}`);
+                const response = await axios.get(`http://localhost:5223/api/User/getHistory/${decodedToken?.staffCode}`);
                 const data: HistoryRecord[] = response.data;
                 console.log(data);
 

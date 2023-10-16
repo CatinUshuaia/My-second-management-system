@@ -97,7 +97,8 @@ const Comp: React.FC = () => {
         //如果点击exit,则会从localstorage中删除token并导向到登录页面
         if (e.key === "/exit") {
             localStorage.removeItem("formsubmission-token");
-            message.info("已退出当前用户");
+            localStorage.removeItem("formsubmission-token-refresh");
+            message.info("Exit successful");
             navigateTo("/login");
         }
 

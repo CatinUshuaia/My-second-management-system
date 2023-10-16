@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const App: React.FC = () => {
     const token = localStorage.getItem('formsubmission-token');
-    let decodedToken: { department: string, userName: string, userType: number } | null = null;
+    let decodedToken: { department: string, userName: string, userType: number, staffCode: string } | null = null;
     if (token) {
         decodedToken = jwtDecode(token);
     }
@@ -16,7 +16,7 @@ const App: React.FC = () => {
         const fetchAvatar = async () => {
             try {
                 // Replace with your API endpoint
-                const response = await axios.get(`http://localhost:5223/api/User/getAvatar/${decodedToken?.userName}`);
+                const response = await axios.get(`http://localhost:5223/api/User/getAvatar/${decodedToken?.staffCode}`);
                 if (response.data && response.data.avatarUrl) {
                     setAvatar(response.data.avatarUrl);
                 } else {

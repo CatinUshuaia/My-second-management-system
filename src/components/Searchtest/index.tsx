@@ -1,19 +1,33 @@
-import { useState } from 'react';
-import { Input, Button, Table, Space, DatePickerProps, Select, DatePicker, Form, message } from 'antd';
+﻿import { useEffect, useState } from 'react';
+import { Input, Button, Table, Space, DatePickerProps, Select, DatePicker, Form, message, Modal } from 'antd';
 import { testData } from '../../Formproperties/testdata';
-import { labData } from '../../Formproperties/labdata';
+import { labData}  from '../../Formproperties/labdata';
 import { formDeleteAPI, formSearchAPI } from '../../request/api';
 import { useNavigate } from "react-router-dom";
 import { format } from 'path';
 import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 
 
 interface Record {
     status: string;
     formName: string;
+    staffCode: string;
     userName: string;
     createTime: string;
     department: string;
+    formId: string;
+}
+
+interface ResponseData {
+    labFullName: string;
+    analysisTemplates: string[];
+}
+
+
+interface LabDataItem {
+    key: string;
+    title: string;
 }
 
 
@@ -21,20 +35,88 @@ const Searchtest: React.FC = () => {
     const [data, setData] = useState<Record[]>([]);
     const [form] = Form.useForm();
     const navigateTo = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [formData, setFormData] = useState<any | null>(null);
+    const [labDat, setLabData] = useState<LabDataItem[]>([]);
+    const [testdat, setTestdata] = useState<{ [key: string]: string[] }>({});
     const token = localStorage.getItem('formsubmission-token');
-    let decodedToken: { department: string, userName: string, userType: number, staffCode: string } | null = null;
+    let decodedToken: { department: string, userName: string, userType: string, staffCode: string } | null = null;
     if (token) {
         decodedToken = jwtDecode(token);
     }
 
+    useEffect(() => {
+        const fetchLabData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5223/Test/getSearchIndex`);
+                console.log(response.data);
+                const uniqueLabFullNames = [...new Set(response.data.map((data: any) => data.labFullName))];
+
+                const updatedLabData = uniqueLabFullNames.map((labFullName: any) => {
+                    const key = labFullName.replace(/[.\s-]/g, '').toUpperCase();
+                    return {
+                        key,
+                        title: labFullName.trim(),
+                    } as LabDataItem;
+                });
+
+                const testData: { [key: string]: string[] } = {};
+
+                response.data.forEach((lab: ResponseData) => {
+                    const key = lab.labFullName.replace(/[.\s-]/g, '').toUpperCase();
+                    testData[key] = lab.analysisTemplates;
+                });
+                setLabData(updatedLabData);
+                setTestdata(testData);
+                console.log(labDat);
+                console.log(testdat);
+            } catch (error) {
+                console.error('Error fetching lab data:', error);
+            }
+        };
+
+        fetchLabData();
+    }, []);
+
+
+    const handleView = async (formId: string) => {
+        try {
+            const response = await axios.get(`http://localhost:5223/api/User/ViewForm/${formId}`);
+            // Assuming the response contains the form data you want to display
+            response.data.formName = response.data.formName;
+            response.data.submitTime = new Date(response.data.submitTime).toLocaleString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+            });
+            setFormData(response.data);
+            console.log(response.data);
+        } catch (error) {
+            console.error(`Error fetching form ${formId}:`, error);
+        }
+
+        setIsModalOpen(true);
+    };
+
+    console.log(labDat);
+    console.log(testdat);
     const columns = [
+        {
+            title: 'formId',
+            dataIndex: 'formId',
+            key: 'formId',
+            sorter: (a: Record, b: Record) => a.userName.localeCompare(b.formId),
+        },
         {
             title: 'formName',
             dataIndex: 'formName',
             key: 'formName',
             sorter: (a: Record, b: Record) => a.formName.localeCompare(b.formName),
             render: (formName: string) => {
-                return formatted(formName);
+                return formName;
             },
         },
         {
@@ -73,14 +155,14 @@ const Searchtest: React.FC = () => {
             key: 'status',
             render: (status: string) => {
                 switch (status) {
-                    case '1':
-                        return 'Submitted';
                     case '2':
-                        return 'Approved';
+                        return 'Submitted';
                     case '3':
+                        return 'Approved';
+                    case '4':
                         return 'Disapproved';
                     default:
-                        return 'Editable';
+                        return 'Editing';
                 }
             },
             sorter: (a: Record, b: Record) => a.status.localeCompare(b.status),
@@ -90,12 +172,63 @@ const Searchtest: React.FC = () => {
             key: 'action',
             render: (text: string, record: Record) => (
                 <Space>
-                    <Button style={{ width: '80px' }} onClick={() => { console.log(`/Createrecord/${record.department}/${record.formName}`); navigateTo(`/Createrecord/${record.department}/${record.formName}`) }} disabled={record.status !== "0"}>Edit</Button>
-
-                    <Button style={{ width: '80px' }} onClick={() => handleDelete(record)} disabled={record.status !== "0"} >Delete</Button>
+                    {decodedToken?.userType === "1" ? (
+                        <>
+                            <Button
+                                style={{ width: '80px' }}
+                                onClick={() => handleView(record.formId)}
+                                disabled={record.status === '1' || record.status === '0'}
+                            >
+                                View
+                            </Button>
+                            {record.userName === decodedToken?.userName && ( // Add this condition
+                                <>
+                                    <Button
+                                        style={{ width: '80px' }}
+                                        onClick={() => {
+                                            navigateTo(`/Createrecord/Templates/${record.formName}`);
+                                        }}
+                                        disabled={record.status !== '1' && record.status !== '0'}
+                                    >
+                                        Edit
+                                    </Button>
+                                    <Button
+                                        style={{ width: '80px' }}
+                                        onClick={() => handleDelete(record)}
+                                        disabled={record.status !== '1' && record.status !== '0'}
+                                    >
+                                        Delete
+                                    </Button>
+                                </>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            {record.userName === decodedToken?.userName && ( // Add this condition
+                                <>
+                                    <Button
+                                        style={{ width: '80px' }}
+                                        onClick={() => {
+                                            navigateTo(`/Createrecord/Templates/${record.formName}`);
+                                        }}
+                                        disabled={record.status !== '1' && record.status !== '0'}
+                                    >
+                                        Edit
+                                    </Button>
+                                    <Button
+                                        style={{ width: '80px' }}
+                                        onClick={() => handleDelete(record)}
+                                        disabled={record.status !== '1' && record.status !== '0'}
+                                    >
+                                        Delete
+                                    </Button>
+                                </>
+                            )}
+                        </>
+                    )}
                 </Space>
             ),
-        }
+        },
     ];
 
     type TestName = keyof typeof testData;
@@ -111,8 +244,9 @@ const Searchtest: React.FC = () => {
 
     const handleDelete = async (record: Record) => {
         const deleteData: FormDeleteAPIReq = {
+            formId:record.formId,
             formName: record.formName,
-            userName: record.userName,
+            staffCode: record.staffCode,
             createTime: record.createTime,
             department: record.department
         };
@@ -146,7 +280,8 @@ const Searchtest: React.FC = () => {
         // Format dateFrom and dateTo as strings
         const formattedValues: FormSearchAPIReq = {
             ...rest,
-            department: decodedToken ? decodedToken.department:'',
+            userType: decodedToken ? decodedToken.userType : '',
+            staffCode: decodedToken ? decodedToken.staffCode:'',
             dateFrom: dateFrom ? dateFrom.format('YYYY-MM-DD') : undefined,
             dateTo: dateTo ? dateTo.format('YYYY-MM-DD') : undefined
         };
@@ -167,10 +302,6 @@ const Searchtest: React.FC = () => {
         }
     };
 
-    const formatted = (words: string) => {
-        const regex = /([A-Z])/g;
-        return words.replace(regex, ' $1').trim();
-    };
 
     return (
         <Form onFinish={onFinish} form={form}>
@@ -191,7 +322,7 @@ const Searchtest: React.FC = () => {
                         style={{ width: 480 }}
                         value={test as any}
                         onChange={ontestChange}
-                        options={(labs).map((test: any) => ({ label: formatted(test), value: test }))}
+                        options={(labs).map((test: any) => ({ label: test, value: test }))}
                     />
                 </Form.Item>
 
@@ -209,6 +340,43 @@ const Searchtest: React.FC = () => {
                 </Button>
             </Space>
             <Table columns={columns} dataSource={data.map((item, index) => ({ ...item, key: index }))} pagination={{ pageSize: 10 }} />
+            <Modal
+                open={isModalOpen}
+                title="Form Details"
+                onCancel={() => {
+                    setIsModalOpen(false);
+                    setFormData(null); // Clear form data when closing the modal
+                }}
+                footer={null}
+            >
+                {formData ? (
+                    <div>
+                        <p>FormID: {formData.formId}</p>
+                        <p>FormName: {formData.formName}</p>
+                        <p>UserName: {formData.userName}</p>
+                        <p>Department: {formData.department}</p>
+                        <p>SubmitTime: {formData.submitTime}</p>
+                        <h4>Components:</h4>
+                        {formData.components.map((component: any, index: any) => (
+                            <div key={index}>
+                                <p>{component.component}: {component.value}</p>
+                            </div>
+                        ))}
+                        <h4>Form images:</h4>
+                        {formData.imageUrls ? (
+                            formData.imageUrls.map((url: any, index: any) => (
+                                <div key={index}>
+                                    <img src={url} alt={`Form image ${index + 1}`} style={{ maxWidth: '100%', maxHeight: '400px' }} />
+                                </div>
+                            ))
+                        ) : (
+                            <p>No uploaded form images available</p>
+                        )}
+                    </div>
+                ) : (
+                    <p>Loading...</p>
+                )}
+            </Modal>
         </Form>
     );
 };

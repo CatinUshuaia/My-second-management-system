@@ -49,8 +49,9 @@ interface FormSearchAPIRes {
 }
 
 interface FormDeleteAPIReq {
+    formId: string;
     formName: string;
-    userName: string;
+    staffCode: string;
     createTime: string;
     department: string;
 }

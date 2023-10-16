@@ -1,29 +1,90 @@
 ﻿export const labData = [
-    { key: 'Bitumen', title: 'Bitumen' },
-    { key: 'Buildingcomponent', title: 'Building Component' },
-    { key: 'Buildingcomponentrock', title: 'Building Component Rock' },
-    { key: 'Buildingdiagnostic', title: 'Building Diagnostic' },
-    { key: 'Calibration', title: 'Calibration' },
-    { key: 'Cement', title: 'Cement' },
-    { key: 'Chemical', title: 'Chemical' },
-    { key: 'Chinesemedicine', title: 'Chinese Medicine' },
-    { key: 'Concretecore', title: 'Concrete Core' },
-    { key: 'Concretecube', title: 'Concrete Cube' },
-    { key: 'Deepcementmaterialtestinglab', title: 'Deep Cement Material Testing Lab' },
-    { key: 'Drainagepipe', title: 'Drainage Pipe' },
-    { key: 'Environmental', title: 'Environmental' },
-    { key: 'Fire', title: 'Fire' },
-    { key: 'Food', title: 'Food' },
-    { key: 'Generaloffice', title: 'General Office' },
-    { key: 'Geotechnicinvestigation', title: 'Geotechnic Investigation' },
-    { key: 'Microbiological', title: 'Microbiological' },
-    { key: 'NDTwelding', title: 'NDT Welding' },
-    { key: 'Paint', title: 'Paint' },
-    { key: 'Piling', title: 'Piling' },
-    { key: 'Site', title: 'Site' },
-    { key: 'SoilandaggregatephaseI', title: 'Soil and Aggregate Phase I' },
-    { key: 'SoilPh2', title: 'Soil Phase 2' },
-    { key: 'Steel', title: 'Steel' },
-    { key: 'Waterworksproductinsp', title: 'Waterworks Product Inspection' },
-    { key: 'Zhongshan2013', title: 'Zhongshan 2013' }
-];
+    {
+        "key": "WATERWORKSPRODUCTINSP",
+        "title": "Water Works Product Insp."
+    },
+    {
+        "key": "BITUMEN",
+        "title": "Bitumen"
+    },
+    {
+        "key": "BUILDINGCOMPONENT",
+        "title": "Building Component"
+    },
+    {
+        "key": "BUILDINGDIAGNOSTIC",
+        "title": "Building Diagnostic"
+    },
+    {
+        "key": "CEMENT",
+        "title": "Cement"
+    },
+    {
+        "key": "CHEMICAL",
+        "title": "Chemical"
+    },
+    {
+        "key": "CHINESEMEDICINE",
+        "title": "Chinese Medicine"
+    },
+    {
+        "key": "CONCRETECORE",
+        "title": "Concrete Core"
+    },
+    {
+        "key": "CONCRETECUBE",
+        "title": "Concrete Cube"
+    },
+    {
+        "key": "ENVIRONMENTAL",
+        "title": "Environmental"
+    },
+    {
+        "key": "FOOD",
+        "title": "Food"
+    },
+    {
+        "key": "GEOTECHNICINVESTIGATION",
+        "title": "Geotechnic Investigation"
+    },
+    {
+        "key": "MICROBIOLOGICAL",
+        "title": "Microbiological"
+    },
+    {
+        "key": "PAINT",
+        "title": "Paint"
+    },
+    {
+        "key": "PILING",
+        "title": "Piling"
+    },
+    {
+        "key": "DRAINAGEPIPE",
+        "title": "Drainage Pipe"
+    },
+    {
+        "key": "BUILDINGCOMPONENTROCK",
+        "title": "Building Component - ROCK"
+    },
+    {
+        "key": "SITE",
+        "title": "Site"
+    },
+    {
+        "key": "SOILANDAGGREGATEPHASEI",
+        "title": "Soil and Aggregate phase I"
+    },
+    {
+        "key": "SOILPH2",
+        "title": "Soil Ph.2"
+    },
+    {
+        "key": "STEEL",
+        "title": "Steel"
+    },
+    {
+        "key": "NDTWELDING",
+        "title": "NDT Welding"
+    }
+]

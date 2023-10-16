@@ -33,7 +33,7 @@ const view = () => {
     const gotoLogin = async () => {
         //验证是否有空值
         if (!staffcodeVal.trim() || !passwordVal.trim()) {
-            message.warning("请输入完整信息！")
+            message.warning("Please enter full information!")
             return;
         }
         try {
@@ -49,9 +49,10 @@ const view = () => {
 
             if (loginAPIRes.success === true) {
                 // 1.提示登录成功
-                message.success("登录成功！");
+                message.success(loginAPIRes.message);
                 // 2.保存token
                 localStorage.setItem("formsubmission-token", loginAPIRes.data.accesstoken);
+                localStorage.setItem("formsubmission-token-refresh", loginAPIRes.data.refreshToken);
 
                 // 3.跳转到/page1
                 navigateTo("/homepage");
@@ -59,17 +60,17 @@ const view = () => {
             }
 
             if (loginAPIRes.success === false) {
-                message.error("用户名或密码错误");
+                message.error(loginAPIRes.message);
                 return;
             }
         } catch (error) {
-            message.error("网络连接失败，请稍后重试");
+            message.error("Network connection failed, please try again later");
             console.error(error);
         }
     }
 
     const handleforgetPwd = () => {
-        message.info('忘记密码，请联系IT部门');
+        message.info('If you forgot your password, please contact IT department');
     }
 
     return (

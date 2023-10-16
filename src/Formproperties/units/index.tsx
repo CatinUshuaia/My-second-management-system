@@ -31,5 +31,4 @@
         value: 'min',
         label: 'min',
     },
-    
 ];

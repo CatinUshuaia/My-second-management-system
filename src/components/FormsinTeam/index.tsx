@@ -22,7 +22,7 @@ const ExampleComponent: React.FC = () => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [statusFilter, setStatusFilter] = useState<string | null>(null);
-    let decodedToken: { department: string; userName: string; userType: string } | null = null;
+    let decodedToken: { department: string; userName: string; userType: string,staffCode:string} | null = null;
     if (token) {
         decodedToken = jwtDecode(token);
     }
@@ -31,7 +31,7 @@ const ExampleComponent: React.FC = () => {
         try {
             const response = await axios.get(`http://localhost:5223/api/User/ViewForm/${formId}`);
             // Assuming the response contains the form data you want to display
-            response.data.formName = response.data.formName.replace(/([A-Z])/g, ' $1').trim();
+            response.data.formName = response.data.formName;
             response.data.submitTime = new Date(response.data.submitTime).toLocaleString('en-US', {
                 year: 'numeric',
                 month: '2-digit',
@@ -79,6 +79,7 @@ const ExampleComponent: React.FC = () => {
                     params: {
                         userType: decodedToken?.userType,
                         department: decodedToken?.department,
+                        staffCode:decodedToken?.staffCode,
                         userName: decodedToken?.userName,
                         startDate: startDate ? startDate : undefined,
                         endDate: endDate ? endDate : undefined,
@@ -90,7 +91,7 @@ const ExampleComponent: React.FC = () => {
             const transformedData = result.data.map((item: any, index: number) => ({
                 key: index.toString(),
                 formId: item.formId,
-                formName: item.formName.replace(/([A-Z])/g, ' $1').trim(),
+                formName: item.formName,
                 userName: item.userName,
                 department: item.department,
                 status: item.status,
@@ -103,7 +104,17 @@ const ExampleComponent: React.FC = () => {
                     second: '2-digit',
                 }),
             }));
-            setData(transformedData as DataType[]);
+
+            const filteredData = transformedData.filter((item: DataType) => {
+                if (decodedToken?.userType === '1') {
+                    return item.status !== '0' && item.status !== '1';
+                } else if (decodedToken?.userType === '2') {
+                    return item.status !== '0';
+                }
+                return true;
+            });
+
+            setData(filteredData as DataType[]);
         } catch (error) {
             console.error('Error fetching data: ', error);
         }
@@ -210,24 +221,26 @@ const ExampleComponent: React.FC = () => {
             dataIndex: 'status',
             key: 'status',
             filters: [
-                { text: 'Saved', value: '0' },
-                { text: 'To be approved', value: '1' },
-                { text: 'Approved', value: '2' },
-                { text: 'Disapproved', value: '3' },
+                { text: 'Saved', value: '1' },
+                { text: 'To be approved', value: '2' },
+                { text: 'Approved', value: '3' },
+                { text: 'Disapproved', value: '4' },
             ],
             onFilter: (value, record) => record.status.toString() === value,
             render: (status) => {
                 let statusText = '';
-                if (status === 0) {
+                if (status === 1) {
                     statusText = 'Saved';
-                } else if (status === 1) {
-                    statusText = 'To be approved';
                 } else if (status === 2) {
-                    statusText = 'Approved';
+                    statusText = 'To be approved';
                 } else if (status === 3) {
+                    statusText = 'Approved';
+                } else if (status === 4) {
                     statusText = 'Disapproved';
+                } else if (status === 0) {
+                    statusText = 'Editing';
                 }
-                return <Tag color={status === 0 ? 'blue' : status === 1 ? 'orange' : status === 2 ? 'green' : 'red'}>{statusText}</Tag>;
+                return <Tag color={status === 1 ? 'blue' : status === 2 ? 'orange' : status === 3 ? 'green' : status === 4 ?'red':'grey'}>{statusText}</Tag>;
             },
         },
         {
@@ -280,7 +293,7 @@ const ExampleComponent: React.FC = () => {
                         {formData.imageUrls ? (
                             formData.imageUrls.map((url:any, index:any) => (
                                 <div key={index}>
-                                    <img src={url} alt={`Form image ${index + 1}`} />
+                                    <img src={url} alt={`Form image ${index + 1}`} style={{ maxWidth: '100%', maxHeight: '400px' }} />
                                 </div>
                             ))
                         ) : (

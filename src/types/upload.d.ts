@@ -16,6 +16,7 @@ interface Image {
 
 interface UploadComponentProps {
     userName: string;
+    staffCode: string;
     images: Image[];
     setImages: React.Dispatch<React.SetStateAction<Image[]>>;
 }
